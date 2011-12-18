@@ -57,6 +57,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
                 <!-- Login code starts here -->
 		<div id="Login">
+                    <jsp:include page="hidden/Login.jsp"></jsp:include>
                     Login code(import login file here)
                 </div>
                 <!-- Login code ends here -->
