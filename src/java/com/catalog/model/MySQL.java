@@ -155,7 +155,7 @@ public class MySQL
          return result;
      }
      
-     void executeUpdate(String query)
+     public void executeUpdate(String query)
      {
          this.query=query;
          try
@@ -173,5 +173,7 @@ public class MySQL
      {
          MySQL m=new MySQL();
          m.connect();
+         m.executeUpdate("INSERT INTO `catalog`.`user` (`UserID`, `UserName`, `Password`, `Type`) VALUES ('8', 'hello', 'hi', '1')");
+                        
      }
 }    

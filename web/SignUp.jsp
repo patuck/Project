@@ -4,6 +4,9 @@
     Author     : Reshad
 --%>
 
+<%@page import="com.catalog.model.Checksum"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -17,7 +20,7 @@
                     out.println("<meta http-equiv=\"refresh\" content=\"5; url=index.jsp\">");
                 }
             }
-            catch (IndexOutOfBoundsException e)
+            catch (NullPointerException e)
             {
             }
         %>
@@ -93,13 +96,38 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Sign Up
                 </h1>
                 <%
+                    if(request.getParameter("FirstName") != null)
+                    {
+                        MySQL db= new MySQL();
+                        Checksum checksum = new Checksum();
+                        db.connect();
+                        ResultSet rs;
+                        rs = db.executeQuery("select max(UserID) from `user`;");
+                        rs.next();
+                        int userID = Integer.parseInt(rs.getString(1));
+                        db.executeUpdate("INSERT INTO `catalog`.`user` (`UserID`, `UserName`, `Password`, `Type`) VALUES ('" + ++userID + "', '" + request.getParameter("UserName") + "', '" + checksum.getSum(request.getParameter("Password")) + "', 1)");
+                        rs=db.executeQuery("SELECT MAX(UserDetailID) FROM userdetails WHERE UserID='" + userID + "'");
+                        rs.next();
+                        int userDetailID;
+                        try
+                        {
+                            userDetailID = Integer.parseInt(rs.getString(1));
+                        }
+                        catch(NumberFormatException e)
+                        {
+                            userDetailID = 0;
+                        }
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'First Name','" + request.getParameter("FirstName") + "')");
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Last Name','" + request.getParameter("LastName") + "')");
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Email','" + request.getParameter("Email") + "')");
+                    }
                     try
                     {
                         if(session.getAttribute("loggedin").equals("true"))
                         {
                             out.println("<p align=\"center\">You are already logged in Redirecting you to the home page</p>");
                         }
-                    }catch (IndexOutOfBoundsException e)
+                    }catch (NullPointerException e)
                     {
                 %>
                 <form action="#" method="Post" >

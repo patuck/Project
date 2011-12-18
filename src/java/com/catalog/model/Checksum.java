@@ -52,7 +52,7 @@ public class Checksum
         
         return output;
     }
-    public String byteArrayToHexString(byte[] b) 
+    private String byteArrayToHexString(byte[] b) 
     {
         StringBuilder sb = new StringBuilder(b.length * 2);
         for (int i = 0; i < b.length; i++) 

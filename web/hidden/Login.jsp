@@ -40,7 +40,7 @@
                 out.println("<h1> Login Successfull</h1> user id "+userID);                         
                 session.setAttribute("UserName", userName);
                 session.setAttribute("UserID", userID);
-                
+                session.setAttribute("loggedin","true");
             }
             else
             {
