@@ -75,21 +75,13 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- Navigation menu code ends here -->
         
 	
-            <!-- Left colum starts here -->
-            <div id="left">
+            <!-- center colum starts here -->
+            <div id="center">
                 <h1>
                     Column 1
                 </h1>
             </div>
-            <!-- Left colum ends here -->
-		
-            <!-- Right colum starts here -->
-            <div id="right">
-                <h1>
-                    Column 2
-                </h1>
-            </div>
-            <!-- Right colum ends here -->
+            <!-- center colum ends here -->
 	
             <!-- Footer starts here -->
             <div id="footer">
