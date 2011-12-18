@@ -26,26 +26,31 @@
             password= checksum.getSum(password);
             ResultSet result=db.executeQuery("Select UserID from user where UserName='" + userName + "' AND Password='" +  password + "';");
             result.next();
-            String id=null;
+            String userID=null;
             try
             {
-                id= result.getString("UserID");
+                userID= result.getString("UserID");
             }
             catch(SQLException e)
             {
                 out.print("SQL exe");
             }
-            if(id!=null)
+            if(userID!=null)
             {
-                out.println("<h1> Login Successfull</h1> user id "+id);
+                out.println("<h1> Login Successfull</h1> user id "+userID);                         
+                session.setAttribute("UserName", userName);
+                session.setAttribute("UserID", userID);
+                
             }
             else
             {
                 out.println("<h1> Login Failed</h1>");
             }
         }
-        
-        
+        else if(session.getAttribute("UserName")!= null )
+        {
+            out.println("Session logged in");
+        }
         else
         {
             %>
