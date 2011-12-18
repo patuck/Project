@@ -1,0 +1,113 @@
+/*
+While troubleshooting remove commented backgroud tags to get layer information for each area(div)
+*/
+
+
+/* Element Positioning */
+body 
+{
+	background: #ffffff url(../Images/Backgrounds/background.jpeg) repeat-x;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	line-height: 18px;
+	color: #333333;
+	/*
+	background:#a7a09a;
+	*/
+}
+#wrap 
+{
+	width:900px;
+	margin:0 auto;
+	/*background:#ffffff;*/
+	/*
+	background:#0000ff;
+	*/
+}
+#header 
+{
+   	padding:5px 10px;
+	width:100%;
+	height:100px;
+
+	/*
+	background:#dddddd;
+	*/
+}
+#Logo
+{
+	width: 500px;
+	float: left;
+}
+#Login 
+{
+	float:right;
+	width: 300px;
+	padding:10px;
+	border-left: 1px solid #bbbbbb;
+	/*
+	background:#99c;
+	*/
+}
+#nav 
+{
+	padding:5px 10px;
+	/*
+	background:#c99;
+	*/
+}
+
+/*
+Definition for left and right column, total width is 800px even though left and right dose not add up but padding of 10px on both sides of each div compensates for the mismatch
+*/
+#left 
+{
+	float:left;
+	width:640px;
+	padding:10px;
+	/*
+	background:#9c9;
+	*/
+}
+#right 
+{
+	float:right;
+	width: 210px;
+	padding:10px;
+	border-left: 1px solid #bbbbbb;
+	/*
+	background:#99c;
+	*/
+}
+#center
+{
+	float:left;
+	width:900px;
+	padding:10px;
+	
+}
+#footer 
+{
+	clear:both;
+	padding:5px 10px;
+	text-align:right;
+	border-top: 1px solid #bbbbbb;
+	/*border-bottom: 1px solid #bbbbbb;*/
+	color: #333333;
+	font-size: 11px;
+	padding: 0 0 10px 0;
+	
+	/*
+	background:#cc9;
+	*/
+}
+
+/* Tag styles */
+h1 
+{
+    color: #FF4800;
+    font-size: 36px;
+    letter-spacing: -1px;
+    padding: 15px 0;
+	text-align: center;
+}
