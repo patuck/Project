@@ -40,21 +40,23 @@
                 out.println("<h1> Login Successfull</h1> user id "+userID);                         
                 session.setAttribute("UserName", userName);
                 session.setAttribute("UserID", userID);
-                session.setAttribute("loggedin","true");
+                session.setAttribute("Loggedin","true");
             }
             else
             {
                 out.println("<h1> Login Failed</h1>");
             }
         }
-        else if(session.getAttribute("UserName")!= null )
+        else if(session.getAttribute("Loggedin")!= null )
         {
-            out.println("Session logged in");
+            out.println("Logged in as: "+ session.getAttribute("UserName"));
+            out.println("<a href=\"#\">Log Out</a>");
+            
         }
         else
         {
             %>
-            <form name="login" method="post" action="Login.jsp">
+            <form name="login" method="post" action="hidden/Login.jsp">
                 <table>
                     <tr>
                         <td>
