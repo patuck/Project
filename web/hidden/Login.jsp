@@ -54,7 +54,7 @@
         else
         {
             %>
-            <form name="login" method="post" action="/Project/hidden/Login.jsp">
+            <form name="login" method="post" action="Login.jsp">
                 <table>
                     <tr>
                         <td>
@@ -69,12 +69,12 @@
                     </tr>
                     <tr style="font-size:10px">
                         <td>
-                            <a href="#">
+                            <a href="ForgotPassword.jsp">
                                 Forgot Password
                             </a>
                         </td>
                         <td>
-                            <a href="#">
+                            <a href="SignUp.jsp">
                                 Sign Up
                             </a>
                         </td>
