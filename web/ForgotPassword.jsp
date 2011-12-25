@@ -4,6 +4,8 @@
     Author     : Reshad
 --%>
 
+<%@page import="java.io.PrintStream"%>
+<%@page import="java.sql.SQLException"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.lang.StringBuilder" %>
 <%@page import="com.catalog.model.*" %>
@@ -84,64 +86,99 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Forgot Password
                 </h1>
                 <%
-                    try
+                    //try{
+                               
+                    if(request.getParameter("Email") != null)
                     {
                         MySQL db = new MySQL();
                         db.connect();
                         //ResultSet rs = db.executeQuery("SELECT `user`.`UserName` FROM `user` WHERE `user`.`UserName` = '" + request.getParameter("UserName") + "';");
                         ResultSet rs = db.executeQuery("SELECT  userdetails.`Value` FROM userdetails WHERE `UserID` = (SELECT `user`.`UserID` FROM `user` WHERE `user`.`UserName`='" + request.getParameter("UserName") + "') AND userdetails.`Detail` = 'Email'");
+                        String password="";
+                        try{
                         rs.next();
-                        //if(request.getParameter("UserName").equals(rs.getString(1)))
-                        if(request.getParameter("Email").equals(rs.getString(1)))
                         {
-                            
-                            
-                            //Generate random alphanumeric string
-                            String password="";
-                            for (int i=0; i<20;i++)
+                            if(request.getParameter("Email").equals(rs.getString(1)))
                             {
-                                char c=' ';
-                                int n = (int) (Math.random() *62);
-            
-                                if (n < 10)  
+                            
+                                //Generate random alphanumeric string
+                                for (int i=0; i<20;i++)
                                 {
-                                    // numeric 0-9  
-                                    password = password + (char) (n + '0');
+                                    int n = (int) (Math.random() *62);
+                                    if (n < 10)  
+                                    {
+                                        // numeric 0-9  
+                                        password = password + (char) (n + '0');
+                                    }
+                                    else if (n <36) 
+                                    {
+                                        // alpha A-Z  
+                                        password = password + (char) (n - 10 + 'A');
+                                    } 
+                                    else
+                                    {
+                                        // alpha a-z  
+                                        password = password + (char) (n - 36 +'a');
+                                    }
                                 }
-                                else if (n <36) 
-                                {
-                                    // alpha A-Z  
-                                    password = password + (char) (n - 10 + 'A');
-                                } 
-                                else
-                                {
-                                    // alpha a-z  
-                                    password = password + (char) (n - 36 +'a');
-                                }
+                                Checksum checksum = new Checksum();
+                                db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum("password") + "' WHERE `UserName`='" + request.getParameter("UserName") + "'");
+                                SendMail sm = new SendMail();
+                                sm.sendMail(request.getParameter("Email"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
+                                out.println("We have generated a new password for you and sent it to the email id you specified. <br />");
                             }
                             
-                            Checksum checksum = new Checksum();
-                            db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum(password) + "' WHERE `UserName`='" + request.getParameter("UserName") + "'");
-                            SendMail sm = new SendMail();
-                            sm.sendMail(request.getParameter("Email"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
-                            out.println("We have generated a new password for you and sent it to the email id you specified. <br />");
                             //SQL command for getting email id
                             //SELECT  userdetails.`Value` FROM userdetails WHERE `UserID` = (SELECT `user`.`UserID` FROM `user` WHERE `user`.`UserName`='reshadpatuck1') AND userdetails.`Detail` = 'Email'
-                %>
-                <%
+                        }
+                        }
+                        catch(SQLException e){
+                            out.print(e.getMessage());
                         }
                         
+                        
+                        if(password == "")
+                        {
+                            %>
+                            <p align="center">
+                                You entered the wrong username or email id <br />
+                                Please go <a href="ForgotPassword.jsp">back</a> and re-enter your details
+                            </p>
+                            <%
+                        }
+                        
+                        
                     }
-                    catch(Exception e)
+                    //catch(Exception e)
+                    else
                     {
-                        out.println(e.getCause());
                 %>
-                bye
                 <form action="" method="get">
-                      <input type="text" name="UserName" value="" />
-                      <input type="text" name="Email" value="" />
-                      <input type="submit" value="Submit" />
-                </form>
+                
+                    <table align="center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    UserName
+                                </td>
+                                <td>
+                                    <input type="text" name="UserName" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Email
+                                </td>
+                                <td>
+                                    <input type="text" name="Email" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="submit" value="Change Password" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 <%
                     }
                 %>
