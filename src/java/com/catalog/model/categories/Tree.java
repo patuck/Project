@@ -31,19 +31,6 @@ public class Tree
         root.setData("root");
         nodeList.add(root);
     }
-    public Tree (String path)
-    {
-        Node root = new Node();
-        root.setParentID("-1");
-        root.setNodeID("0");
-        root.setData("root");
-        nodeList.add(root);
-        try {
-            fw = new FileWriter(new File(path));
-        } catch (IOException ex) {
-            
-        }
-    }
     
     public ArrayList<Node> getList()
     {
@@ -81,31 +68,39 @@ public class Tree
     {
         try 
         {
+            fw.write("<ul>\n");
             for(int i=0;i<nodeList.size(); i++)
             {
                 if (nodeList.get(i).getParentID().equals(nodeID))
                 {
-                    fw.write("<ul>");
-                    fw.write("<li>");
+                    //fw.write("<ul>");
+                    fw.write("<li><a href=\"#\">");
                     fw.write(nodeList.get(i).getData());
-                    fw.write("</li>");
+                    fw.write("</a>");
                     printChildNodes(nodeList.get(i).getNodeID());
-                    fw.write("</ul>");
+                    fw.write("</li>\n");
                 }
             }
+            fw.write("</ul>\n");        
         } 
         catch (IOException ex) 
         {
             System.out.println(ex.getCause());
         } 
-        if(nodeID.equals("0"))
-        {
-            try {
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    }
+    public void makeMenu(String path)
+    {
+         try 
+         {
+             fw = new FileWriter(new File(path));
+             fw.write("<div id=\"smoothmenu-ajax\" class=\"ddsmoothmenu\">");
+             printChildNodes("0");
+             fw.write("<br style=\"clear: left\" /> \n </div>");
+             fw.close();
+         } 
+         catch (IOException ex) 
+         {
+         }
     }
     
     

@@ -135,7 +135,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        
                        //create tree structure from database to create new menu file
                        
-                       Tree tree = new Tree(getServletContext().getRealPath("Scripts/Menu/menu1.html"));
+                       Tree tree = new Tree();
                        result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
                        //skip root as it already is part of Tree class
                        result.next();
@@ -143,7 +143,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        {           
                            tree.addNode(new Node(result.getString(1), result.getString(2), result.getString(3)));
                        }
-                       tree.printChildNodes("0");                 
+                       tree.makeMenu(getServletContext().getRealPath("Scripts/Menu/menu.html"));
+                       out.println(getServletContext().getRealPath("Scripts/Menu/menu.html"));
                        db.disconnect();
                        
                        
@@ -169,6 +170,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     </td>
                                     <td>
                                         <select name="ParentCategory">
+                                            <option value="0">
+                                                - -
+                                            </option>
+                                            
                                             <%
                                             //Build tree of categories form database
                                             MySQL db = new MySQL();
