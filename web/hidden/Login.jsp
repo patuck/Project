@@ -24,7 +24,7 @@
         {
             Checksum checksum=new Checksum();
             password= checksum.getSum(password);
-            ResultSet result=db.executeQuery("Select UserID from user where UserName='" + userName + "' AND Password='" +  password + "';");
+            ResultSet result=db.executeQuery("Select `UserID`, `Type` from user where UserName='" + userName + "' AND Password='" +  password + "';");
             result.next();
             String userID=null;
             try
@@ -40,6 +40,7 @@
                 out.println("<h1> Login Successfull</h1> user id "+userID);                         
                 session.setAttribute("UserName", userName);
                 session.setAttribute("UserID", userID);
+                session.setAttribute("Type", result.getString("Type"));
                 session.setAttribute("Loggedin","true");
             }
             else
