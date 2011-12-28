@@ -88,10 +88,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 <p>&copy; TechE</p>
             </div>
             <!-- Footer starts here -->
-	
-
-</div>
-
-
-</body>
+        </div>
+    </body>
 </html>
