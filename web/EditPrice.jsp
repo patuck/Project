@@ -87,14 +87,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- center colum starts here -->
             <div id="center">
                 <h1>
-                    Add Price
+                    Edit Price
                 </h1>
                 <%
                 if(!isLoggedin)
                 {
                     %>
                     <p align="center">
-                        You need to be logged in to add a price to an item to our catalog.<br />
+                        You need to be logged in to edit a price to an item to our catalog.<br />
                         Please login above or <a href="SignUp.jsp">Sign up</a> for a new account.
                     </p>
                     <%     
