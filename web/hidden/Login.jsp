@@ -20,6 +20,14 @@
         db.connect();
         String userName=request.getParameter("UserName");
         String password=request.getParameter("Password");
+        boolean logout=false;
+        try
+        {
+             logout = (request.getParameter("Logout").equals("true")? true : false);
+        }
+        catch(NullPointerException e)
+        {
+        }
         if(password != null)
         {
             Checksum checksum=new Checksum();
@@ -48,11 +56,19 @@
                 out.println("<h1> Login Failed</h1>");
             }
         }
+               
+        else if(logout)
+        {
+            session.removeAttribute("UserName");
+            session.removeAttribute("UserID");
+            session.removeAttribute("Type");
+            session.removeAttribute("Loggedin");
+            out.println("You have Logged out successfully");
+        }
         else if(session.getAttribute("Loggedin")!= null )
         {
-            out.println("Logged in as: "+ session.getAttribute("UserName"));
-            out.println("<a href=\"#\">Log Out</a>");
-            
+            out.println("Logged in as: <b>"+ session.getAttribute("UserName") + "</b><br />");
+            out.println("<a href=\"hidden/Login.jsp?Logout=true\">Log Out</a>");
         }
         else
         {
