@@ -121,10 +121,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         %>
                         <table align="center">
                             <tr>
-                                <td colspan="2" align="center">
+                                <td colspan="2">
                                     Review:
                                     <br />
-                                    <%=result.getString(1) %>
+                                    <pre><%=result.getString(1) %></pre>
                                 </td>
                             </tr>
                             <tr>
