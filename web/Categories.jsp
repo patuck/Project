@@ -17,6 +17,12 @@
         <title>
             TechE
         </title>
+        <%
+        if(request.getParameter("Category") == null)
+        {
+            out.println("<meta http-equiv=\"refresh\" content=\"0; url=index.jsp\">");
+        }
+        %>
         <!-- Style Sheet Import Starts Here -->
         <link rel="stylesheet" type="text/css" href="Styles/styles.css" />
         <link rel="stylesheet" type="text/css" href="Styles/home.css" />
@@ -110,7 +116,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     pageNo=0;
                 }
-                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
+                out.println("<h1>" + tree.getList().get(Integer.parseInt(request.getParameter("Category"))).getData() + "</h1>");
+                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") + "' ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
                 while(result.next())
                 {
                     %>
