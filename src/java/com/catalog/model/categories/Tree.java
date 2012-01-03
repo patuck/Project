@@ -41,7 +41,17 @@ public class Tree
     {
         nodeList.add(n);
     }
-    
+    public ArrayList<Node> getParentNodes(String nodeID)
+    {
+        for(int i=0;i<nodeList.size(); i++)
+        {
+            if(nodeID.equals(nodeList.get(i).getNodeID()))
+            {
+                return getParentNodes(nodeList.get(i));
+            }
+        }
+        return new ArrayList<Node>();
+    }
     public ArrayList<Node> getParentNodes(Node node)
     {
         for(int i=0;i<nodeList.size(); i++)

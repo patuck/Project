@@ -1,0 +1,120 @@
+.ItemBox
+{
+	padding: 20px, 10px, 0px, 20px;
+	border-bottom: 1px solid #bbbbbb;
+	/*background:red;*/
+}
+.ItemBox #ItemName
+{
+	font-size: 25px;
+	font-weight: bold;
+	color: #FF4800;
+	/*background:blue;*/
+}
+.ItemBox #CategoryPath
+{
+	color: grey;
+	/*background:green;*/
+}
+.ItemBox #CategoryPath a
+{
+	color: grey;
+	text-decoration: none;
+	/*background:blue;*/
+}
+.ItemBox #CategoryPath a:hover
+{
+	color: green;
+	text-decoration:none;
+	/*background:orange;*/
+}
+.ItemBox #BodyArea
+{
+	min-height:210px;
+}
+.ItemBox #BodyArea #ItemImage
+{
+	float: left;
+	width: 220px;
+	border: 10px;
+}
+.ItemBox #BodyArea #ItemImage img
+{
+	max-width: 200px;
+	max-height: 200px;
+}
+.ItemBox #BodyArea #ItemDetails
+{
+	/*background:red;*/
+	width: 400px;
+	float: right;
+}
+.ItemBox #BodyArea #ItemDetails .Detail
+{
+	float: left;
+	font-weight:bold;
+}
+.ItemBox #BodyArea #ItemDetails .Value
+{
+	float: left;
+}
+.ItemBox #Footer 
+{
+	padding:5px 10px;
+	text-align: left;
+	font-size: 14px;
+	border-top: none;
+}
+#SignUp
+{
+	text-align:center;
+}
+#SignUP h1
+{
+	color: #FF4800;
+    font-size:36px;
+    font-weight: 1;
+    letter-spacing: -1px;
+    padding: 15px 0;
+}
+#Reviews h3
+{
+	color: #FF4800;
+	font-size:16px;
+	text-align:center
+}
+#ReviewHeader
+{
+	height: 25px;
+}
+#ReviewHeader #Reviewer
+{
+	font-size:14px;
+	font-weight: 600;
+	float:left;
+}
+#ReviewHeader #date
+{
+	font-size:14px;
+	font-weight: 600;
+	float:right;
+}
+#Price h3
+{
+	color: #FF4800;
+	font-size:16px;
+	text-align:center
+}
+.Price
+{
+	border-bottom: 1px solid #bbbbbb;
+}
+#Price .Detail
+{
+	float:left;
+	font-weight:bold;
+}
+#Price .Value
+{
+	float:inherit;
+}
