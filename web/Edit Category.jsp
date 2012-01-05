@@ -105,38 +105,26 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- center colum starts here -->
             <div id="center">
                 <h1>
-                    Add Category
+                    Edit Category
                 </h1>
                 <div align="center">
                     <%
                     if(!isAdmin)
                     {
-                        out.println("You are not authorized to add a category.<br />Please contact an administrator if you feel a category is missing from this web site.<br />You will now be redirected back to our home page.");
+                        out.println("You are not authorized to Edit a category.<br />Please contact an administrator if you feel a category is missing from this web site.<br />You will now be redirected back to our home page.");
                     }
                    else if (request.getParameter("Name")!=null)
                    {
                        MySQL db = new MySQL();
                        db.connect();
-                       ResultSet result = db.executeQuery("SELECT MAX(`category`.`CategoryID`) FROM `category`");
-                       result.next();
-                       int categoryID;
-                       try
-                       {
-                           categoryID = Integer.parseInt(result.getString(1));
-                       }
-                       catch(NumberFormatException e)
-                       {
-                           categoryID = 0;
-                       }
-                       categoryID++;
-                       db.executeUpdate("INSERT INTO `catalog`.category (`CategoryID`, `UserID`, `CategoryName`, `ParentCategoryID`) VALUES ('" + categoryID + "','" + session.getAttribute("UserID") + "', '" + request.getParameter("Name") + "', '" + request.getParameter("ParentCategory") + "')");
-                       //db.executeUpdate("");
+                       
+                       db.executeUpdate("UPDATE `catalog`.category SET `CategoryName` = '" + request.getParameter("Name") + "', `ParentCategoryID` = '" + request.getParameter("ParentCategory") + "' WHERE `CategoryID` = '" + request.getParameter("CategoryID") + "';");
                        
                        
                        //create tree structure from database to create new menu file
                        
                        Tree tree = new Tree();
-                       result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                       ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
                        //skip root as it already is part of Tree class
                        result.next();
                        while(result.next())
@@ -146,20 +134,24 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        tree.makeMenu(getServletContext().getRealPath("Scripts/Menu/menu.html"));
                        db.disconnect();
                        
-                       
                    }
-                    else
+                   else if(request.getParameter("CategoryID")!=null)
                     {
+                       MySQL db1 = new MySQL();
+                       db1.connect();
+                       ResultSet rs = db1.executeQuery("SELECT `CategoryName`,`ParentCategoryID` FROM category WHERE `CategoryID`='" + request.getParameter("CategoryID") + "';");
+                       rs.next();
                         %>
                         
-                        <form method="get" action="#">
+                        <form method="post" action="#">
+                            <input type="hidden" name="CategoryID" value="<%=request.getParameter("CategoryID") %>" />
                             <table>
                                 <tr>
                                     <td>
                                         Category Name:
                                     </td>
                                     <td>
-                                        <input type="text" name="Name" value="" />
+                                        <input type="text" name="Name" value="<%=rs.getString(1) %>" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -187,7 +179,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                             int treelength=tree.getList().size();
                                             for(int i=1; i<treelength;i++)
                                             {
-                                                out.println("<option value=\"" + tree.getList().get(i).getNodeID() + "\">");
+                                                if(tree.getList().get(i).getNodeID().equals(rs.getString(2)))
+                                                {
+                                                    out.println("<option value=\"" + tree.getList().get(i).getNodeID() + "\" selected=\"selected\">");
+                                                }                                                                                                                                           
+                                                else
+                                                {
+                                                    out.println("<option value=\"" + tree.getList().get(i).getNodeID() + "\">");
+                                                }
                                                 ArrayList<Node> nodeList= tree.getParentNodes(tree.getList().get(i));
                                                 for(int j=0; j<nodeList.size()-1;j++)
                                                 {
@@ -197,6 +196,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                                 out.println("</option>");
                                             }
                                             db.disconnect();
+                                            db1.disconnect();
                                             %>
                                         </select>
                                     </td>
