@@ -4,12 +4,19 @@
 	border-bottom: 1px solid #bbbbbb;
 	/*background:red;*/
 }
-.ItemBox #ItemName
+.ItemBox #ItemName a
 {
 	font-size: 25px;
 	font-weight: bold;
 	color: #FF4800;
-	/*background:blue;*/
+        text-decoration: none;
+        /*background:blue;*/
+}ItemBox #ItemName
+{
+	font-size: 25px;
+	font-weight: bold;
+	color: #FF4800;
+        /*background:blue;*/
 }
 .ItemBox #CategoryPath
 {

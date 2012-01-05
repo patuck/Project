@@ -127,7 +127,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <div id="HeaderLine">
                             <div id="ItemName">
                                 <br/> <br/>
-                                <%= result.getString(3) %>
+                                <a href="Item.jsp?ItemID=<%=result.getString(1) %>">
+                                    <%= result.getString(3) %>
+                                </a>
                             </div>
                             <div id="CategoryPath">
                                 <%

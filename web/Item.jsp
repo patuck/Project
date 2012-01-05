@@ -153,7 +153,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     <div id="item-<%= result.getString(1) %>" class="ItemBox">
                         <div id="HeaderLine">
-                            <div id="ItemName">
+                            <div id="ItemName" style="font-size: 25px;font-weight: bold;color: #FF4800;">
                                 <br/> <br/>
                                 <%= result.getString(3) %>
                             </div>
