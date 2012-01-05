@@ -103,7 +103,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 
                 <!-- Logo code starts here -->
                 <div id="Logo">
+                    <a href="index.jsp">
                     <img src="Images/Logos/TechE Logo.png" height="100" />
+                    </a>
                 </div>
 		<!-- Logo code ends here -->
                 
@@ -231,8 +233,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             
                             <tr>
                                 <td>
-                                    <input type="button" value="New Detail" onclick="addNewDetail('Table')"/>
-                                    <input type="button" value="New Image" onclick="addNewImage('Table')"/>
+                                    <input type="button" value="New Detail" onClick="addNewDetail('Table')"/>
+                                    <input type="button" value="New Image" onClick="addNewImage('Table')"/>
                                 </td>
                                 <td>
                                     <input type="submit" value="Submit Details" />

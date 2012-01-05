@@ -84,7 +84,7 @@ public class Tree
                 if (nodeList.get(i).getParentID().equals(nodeID))
                 {
                     //fw.write("<ul>");
-                    fw.write("<li><a href=\"#\">");
+                    fw.write("<li><a href=\"Categories.jsp?Category=" + nodeList.get(i).getNodeID() + "\">");
                     fw.write(nodeList.get(i).getData());
                     fw.write("</a>");
                     printChildNodes(nodeList.get(i).getNodeID());

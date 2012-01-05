@@ -51,7 +51,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 
                 <!-- Logo code starts here -->
                 <div id="Logo">
+                    <a href="index.jsp">
                     <img src="Images/Logos/TechE Logo.png" height="100" />
+                    </a>
                 </div>
 		<!-- Logo code ends here -->
                 
