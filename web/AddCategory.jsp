@@ -66,6 +66,54 @@ customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //ove
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
         </script>
+        
+       
+        
+        <script type="text/javascript">
+            var err= false;
+            function setErr()
+            {
+                err=true;
+            }
+            function validateForm()
+            {
+                return !err;
+            }
+            function validateCategory()
+            {
+                document.getElementById('err').innerHTML = "";
+                err=false;
+                var XMLHttpRequestObject = false;
+                if (window.XMLHttpRequest)
+                {
+                    XMLHttpRequestObject = new XMLHttpRequest();
+                } else if (window.ActiveXObject) 
+                {
+                    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if(XMLHttpRequestObject) 
+                {
+                    
+                    XMLHttpRequestObject.open("POST", "Validation/CheckCategory");
+                    XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+                    XMLHttpRequestObject.onreadystatechange = function() 
+                    {
+                        if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) 
+                        {
+                            if(parseInt(XMLHttpRequestObject.responseText,10) == 1)
+                            {
+                                 document.getElementById('err').innerHTML = "Category Already Exists";
+                                setErr();
+                            }
+                            delete XMLHttpRequestObject;
+                            XMLHttpRequestObject = null;
+                        }
+                    }
+                    XMLHttpRequestObject.send("Name="+ document.forms['AddCategory'].elements['Name'].value + "&ParentCategory=" + document.forms['AddCategory'].elements['ParentCategory'].value); 
+                }
+                return err;
+            }
+        </script>
         <!-- Script Declaration Ends Here -->
 
 
@@ -155,14 +203,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     {
                         %>
                         
-                        <form method="get" action="#">
+                        <form method="get" id="AddCategory" action="AddCategory.jsp" onsubmit="return validateForm();">
                             <table>
                                 <tr>
                                     <td>
                                         Category Name:
                                     </td>
                                     <td>
-                                        <input type="text" name="Name" value="" />
+                                        <input type="text" name="Name" value="" onblur="return validateCategory();"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -170,7 +218,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         Parent Category:
                                     </td>
                                     <td>
-                                        <select name="ParentCategory">
+                                        <select name="ParentCategory" onchange="return validateCategory();">
                                             <option value="0">
                                                 - -
                                             </option>
@@ -204,6 +252,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         </select>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2" id="err">
+                                        
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td>
                                     </td>
