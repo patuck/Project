@@ -28,7 +28,7 @@
         catch(NullPointerException e)
         {
         }
-        if(request.getParameter("login") != null ? (request.getParameter("login") == "true") : false )
+        if(request.getParameter("login") != null)
         {
             Checksum checksum=new Checksum();
             password= checksum.getSum(password);
