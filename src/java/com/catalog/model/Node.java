@@ -1,4 +1,4 @@
-package com.catalog.model.categories;
+package com.catalog.model;
 
 /*
  * To change this template, choose Tools | Templates

@@ -6,10 +6,10 @@
 
 <%@page import="java.io.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.catalog.model.categories.Node"%>
+<%@page import="com.catalog.model.Node"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.catalog.model.MySQL"%>
-<%@page import="com.catalog.model.categories.Tree"%>
+<%@page import="com.catalog.model.Tree"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%

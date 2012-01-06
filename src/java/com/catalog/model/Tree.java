@@ -1,4 +1,4 @@
-package com.catalog.model.categories;
+package com.catalog.model;
 
 
 import java.io.File;

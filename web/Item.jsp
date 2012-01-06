@@ -7,8 +7,8 @@
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.catalog.model.categories.Node"%>
-<%@page import="com.catalog.model.categories.Tree"%>
+<%@page import="com.catalog.model.Node"%>
+<%@page import="com.catalog.model.Tree"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

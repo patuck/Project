@@ -6,8 +6,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*"%>
-<%@page import="com.catalog.model.MySQL"%>
-<%@page import="com.catalog.model.categories.*"%>
+<%@page import="com.catalog.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
