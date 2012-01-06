@@ -224,6 +224,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     <h3>
                         Reviews
                     </h3>
+                    <div style="float: right;">
+                        <a href="AddReview.jsp?ItemID=<%=itemID %>"> <img src="Images/Icons/add.png" width="15" height="15" alt="add"/>
+                            Add Review
+                        </a>
+                    </div>
                      <%
                      result = db.executeQuery("SELECT `review`.`ReviewID`, `review`.`Review`, `review`.`UserID`, `review`.`TimeStamp` FROM review WHERE `review`.`ItemID` = '" + request.getParameter("ItemID") + "'");
                      while(result.next())
@@ -278,12 +283,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 		
             <!-- Right colum starts here -->
             <div id="right">
-                <a href="AddItem.jsp">
-                    Add an Item to our Listings
-                </a>
-                <a href="AddCategory.jsp">
-                    Add a Category to our list
-                </a>
+                
                 
                 <div id="Price">
                     <h3>
