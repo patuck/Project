@@ -65,35 +65,28 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 if(!validateEmail())
                 {
-                    alert("f1");
                     return false;
                 }
                 else if(!validateFirstName())
                 {
-                    alert("f2");
                     return false;
                 }
                 else if(!validateLastName())
                 {
-                    alert("f3");
                     return false;
                 }
                 else if(!validatePassword())
                 {
-                    alert("f4");
                     return false;
                 }
                 else if(!validateReEnterPassword())
                 {
-                    alert("f5");
                     return false;
                 }
                 else if(!uname)
                 {
-                    alert("f6");
                     return false;
                 }
-                alert("hi");
                 return true;
                     
             }

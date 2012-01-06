@@ -48,6 +48,46 @@ customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //ove
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
         </script>
+        <script>
+            function validateForm()
+            {
+                
+                if(!validatePrice())
+                {
+                    return false;
+                }
+                else if(!validateShop())
+                {
+                    return false;
+                }
+                return true;
+            }
+            function validatePrice()
+            {
+                document.getElementById('err-Price').innerHTML = "";
+                if(isEmpty('AddPrice', 'Price'))
+                {
+                    document.getElementById('err-Price').innerHTML = "Price cannot be blank";
+                    return false;
+                }
+                else if(!isOnlyDigits('AddPrice', 'Price'))
+                {
+                    document.getElementById('err-Price').innerHTML = "Price name must contain only digits";
+                    return false;
+                }
+                return true;
+            }
+            function validateShop()
+            {
+                document.getElementById('err-Shop').innerHTML = "";
+                if(isEmpty('AddPrice', 'Shop'))
+                {
+                    document.getElementById('err-Shop').innerHTML = "Shop cannot be blank";
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <!-- Script Declaration Ends Here -->
 
 
@@ -120,13 +160,13 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     }
                     priceID++;
                     db.executeUpdate("INSERT INTO `catalog`.price (`ItemID`, `PriceID`, `Price`, `Shop`, `Link`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + priceID + "', '" + request.getParameter("Price") + "', '" + request.getParameter("Shop") + "', '" + request.getParameter("Link") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
-                    out.println("<p align=\"center\">Price added successfully. </p>");
+                    out.println("<p align=\"center\">Price added successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
                     db.disconnect();
                 }
                 else if(request.getParameter("ItemID") != null)
                 {
                     %>
-                    <form method="post">
+                    <form id="AddPrice" action="AddPrice.jsp" method="post" onsubmit="return validateForm();" >
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <table align="center">
                             <tr>
@@ -134,7 +174,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Price
                                 </td>
                                 <td>
-                                    <input type="text" name="Price" value="" />
+                                    <input type="text" name="Price" value="" onblur="return validatePrice();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err-Price">
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -142,7 +187,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Shop
                                 </td>
                                 <td>
-                                    <input type="text" name="Shop" value="" />
+                                    <input type="text" name="Shop" value="" onblur="return validateShop();"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err-Shop">
+                                    
                                 </td>
                             </tr>
                             <tr>
