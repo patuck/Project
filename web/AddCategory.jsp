@@ -203,7 +203,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     {
                         %>
                         
-                        <form method="get" id="AddCategory" action="AddCategory.jsp" onsubmit="return validateForm();">
+                        <form method="post" id="AddCategory" action="AddCategory.jsp" onsubmit="return validateForm();">
                             <table>
                                 <tr>
                                     <td>
