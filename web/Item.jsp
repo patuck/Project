@@ -56,6 +56,7 @@ private String getMonthOfYear(int m)
             TechE
         </title>
         <%
+        String itemID;
         if(request.getParameter("ItemID") == null)
         {
             out.println("<meta http-equiv=\"refresh\" content=\"0; url=index.jsp\">");
@@ -177,7 +178,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <%
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
-                                String itemID=result.getString(1);
+                                itemID=result.getString(1);
                                 ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
                                 itemDetails.next();
                                 %>
@@ -212,25 +213,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div id="rating">
                                 <!-- 5 star rating code here -->
                             </div>
-                            <table>
-                                <tr>
-                                    <!-- facebook buttons start here -->
-                                    <td>
-                                        <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
-                                    </td> 
-                                    <!-- facebook buttons end here -->
-                                    <!-- twitter button start here -->
-                                    <td>
-                                        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-                                    </td>
-                                    <!-- twitter button end here -->
-                                    <!-- +1 button start here -->
-                                    <td>
-                                        <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe>
-                                    </td>
-                                    <!-- +1 button end here -->
-                                </tr>
-                            </table>
+                            
                         </div>
                     </div>
                     
@@ -263,6 +246,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                      String date = result.getDate(4).toString();
                                      out.println("on " + getMonthOfYear(Integer.parseInt(date.substring(5, 7))) + " " + date.substring(8, 10) + ", " + date.substring(0, 4));
                                      %>
+                                     <div style="float: right;">
+                                         <a href="EditReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" /> </a>
+                                         <a href="RemoveReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" /> </a>
+                                </div>
                                  </div>
                              </div>
                                  <div id="Content">
@@ -302,8 +289,13 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     <h3>
                         Price
                     </h3>
+                    <a href="AddPrice.jsp?ItemID=<%=itemID %>"> <img src="Images/Icons/add.png" width="15" height="15" alt="add"/>
+                        Add Price
+                
+                    </a>
                     <%
-                    result = db.executeQuery("SELECT `price`.`PriceID`, `price`.`Price`, `price`.`Shop`, `price`.`Link` FROM `price` WHERE `price`.`ItemID` = '1'");
+                    
+                    result = db.executeQuery("SELECT `price`.`PriceID`, `price`.`Price`, `price`.`Shop`, `price`.`Link` FROM `price` WHERE `price`.`ItemID` = '" + itemID + "'");
                     while(result.next())
                     {
                         %>
@@ -321,6 +313,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </div>
                             <div class="Value">
                                 Rs. <%=result.getString(2) %>
+                                <div style="float: right;">
+                                    <a href="EditPrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" /> </a>
+                                    <a href="RemovePrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" /> </a>
+                                </div>
                             </div>
                         </div>
                         <%
