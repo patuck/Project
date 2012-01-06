@@ -107,7 +107,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("Name="+ document.forms['AddCategory'].elements['Name'].value + "&ParentCategory=" + document.forms['AddCategory'].elements['ParentCategory'].value); 
+                    XMLHttpRequestObject.send("Name="+ document.forms['EditCategory'].elements['Name'].value + "&ParentCategory=" + document.forms['EditCategory'].elements['ParentCategory'].value); 
                 }
                 return err;
             }
