@@ -174,13 +174,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         </div>
                         <div id="BodyArea">
                             <div id="ItemImage">
-                                <img src="Images/Images/item 1/img_1.gif" />
-                            </div>
-                            <div id="ItemDetails">
                                 <%
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
-                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "';");
+                                String itemID=result.getString(1);
+                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
+                                itemDetails.next();
+                                %>
+                                <img src="Images/Items/Item-<%=itemID %>/<%=result.getString(2) %>" />
+                            </div>
+                            <div id="ItemDetails">
+                                <%
                                 while(itemDetails.next())
                                 {
                                     try

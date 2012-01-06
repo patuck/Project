@@ -148,13 +148,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         </div>
                         <div id="BodyArea">
                             <div id="ItemImage">
-                                <img src="Images/Images/item 1/img_1.gif" />
-                            </div>
-                            <div id="ItemDetails">
                                 <%
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
+                                String itemID=result.getString(1);
                                 ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
+                                itemDetails.next();
+                                %>
+                                <img src="Images/Items/Item-<%=itemID %>/<%=result.getString(2) %>" />
+                            </div>
+                            <div id="ItemDetails">
+                                <%
                                 while(itemDetails.next())
                                 {
                                     try
@@ -182,25 +186,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div id="rating">
                                 <!-- 5 star rating code here -->
                             </div>
-                            <table>
-                                <tr>
-                                    <!-- facebook buttons start here -->
-                                    <td>
-                                        <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
-                                    </td> 
-                                    <!-- facebook buttons end here -->
-                                    <!-- twitter button start here -->
-                                    <td>
-                                        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-                                    </td>
-                                    <!-- twitter button end here -->
-                                    <!-- +1 button start here -->
-                                    <td>
-                                        <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe>
-                                    </td>
-                                    <!-- +1 button end here -->
-                                </tr>
-                            </table>
+                            
                         </div>
                     </div>
                         
