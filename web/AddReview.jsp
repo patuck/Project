@@ -48,6 +48,19 @@ customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //ove
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
         </script>
+        <script type="text/javascript">
+            
+            function validateReview()
+            {
+                document.getElementById('err').innerHTML = "";
+                if(isEmpty('AddReview', 'Review'))
+                {
+                    document.getElementById('err').innerHTML = "Review cannot be blank";
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <!-- Script Declaration Ends Here -->
 
 
@@ -126,7 +139,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 else if(request.getParameter("ItemID") != null)
                 {
                     %>
-                    <form method="post">
+                    <form method="post" id="AddReview" action="AddReview.jsp" onsubmit="return validateReview();">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <table align="center">
                             <tr>
@@ -134,6 +147,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Review:
                                     <br />
                                     <textarea name="Review" rows="10" cols="80"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="err" colspan="2">
+                                    
                                 </td>
                             </tr>
                             <tr>
