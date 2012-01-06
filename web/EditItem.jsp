@@ -169,7 +169,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     %>
                     <p align="center">
                     You need to be logged in as a Moderator to edit an item in our catalog.<br />
-                    Please login above or <a href="SignUp.jsp">Sign up</a> for a new account.
+                    Please login above or contact a moderator if you feel there is a need for changes.
                     </p>
                     <%                                          
                 }
