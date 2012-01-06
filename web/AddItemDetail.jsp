@@ -9,7 +9,6 @@
 <%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@ page language="java" import="javazoom.upload.*,java.util.*" %>
 
 
 
@@ -73,23 +72,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 element2.name = "value-" + (rowCount-1)
                 cell2.appendChild(element2);
             }
-            function addNewImage(tableID)
-            {
-                var table = document.getElementById(tableID);
-                var rowCount = table.rows.length;
-                var row = table.insertRow(rowCount-1);
-                var cell1 = row.insertCell(0);            
-                var element1 = document.createElement("input");
-                element1.type = "text";
-                element1.name = "detail-" + (rowCount-1)
-                cell1.appendChild(element1);
-                
-                var cell2 = row.insertCell(1);            
-                var element2 = document.createElement("input");
-                element2.type = "file";
-                element2.name = "file-" + (rowCount-1)
-                cell2.appendChild(element2);
-            }
         </script>
         <!-- Script Declaration Ends Here -->
 
@@ -136,15 +118,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Add Item Details
                 </h1>
                 <%
-                MultipartFormDataRequest mrequest;
-                try
-                {
-                    mrequest = new MultipartFormDataRequest(request);
-                }
-                catch(IOException e)
-                {
-                    mrequest=null;
-                }
                 if(!isLoggedin)
                 {
                     %>
@@ -154,12 +127,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(mrequest != null ? (mrequest.getParameter("DataEntered") != null ? (mrequest.getParameter("DataEntered").equals("true")? true : false) : false) : false)
+                else if(request.getParameter("DataEntered") != null ? (request.getParameter("DataEntered").equals("true")? true : false) : false)
                 {
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetails`.`ItemDetailID`) FROM `ItemDetails` WHERE `ItemDetails`.`ItemID`='" + mrequest.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetails`.`ItemDetailID`) FROM `ItemDetails` WHERE `ItemDetails`.`ItemID`='" + request.getParameter("ItemID") + "';");
                     result.next();
                     long itemDetailID;
                     try
@@ -171,43 +144,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         itemDetailID = 0;
                     }
                     
-                    for (int i=1; mrequest.getParameter("detail-" + i) != null ;i++)
+                    for (int i=1; request.getParameter("detail-" + i) != null ;i++)
                     {
-                        if(mrequest.getParameter("value-" + i) != null)
+                        if(request.getParameter("value-" + i) != null)
                         {
-                            db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + mrequest.getParameter("ItemID") + "', '" + ++itemDetailID + "', '" + mrequest.getParameter("detail-" + i) + "', '" + mrequest.getParameter("value-" + i) + "');");
-                        }
-                        else
-                        {
-                            //MultipartFormDataRequest mrequest = new MultipartFormDataRequest(request);
-                            %>
-                            <%
-                            
-                            Hashtable files = mrequest.getFiles();
-                            if ( (files != null) && (!files.isEmpty()) )
-                            {
-                                %>
-                                <%String path = getServletContext().getRealPath("Images/Items/Item-") + mrequest.getParameter("ItemID");  %> 
-                                <%=path %>
-                                <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
-                                    <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
-                                </jsp:useBean>
-                                <%
-                                
-                                UploadFile file = (UploadFile) files.get("file-" + i);
-                                if (file != null)
-                                {
-                                     // Uses the bean now to store specified by jsp:setProperty at the top.
-                                    db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + mrequest.getParameter("ItemID") + "', '" + ++itemDetailID + "', '" + "image" + "', '" + "image-" + itemDetailID + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "');");
-                                    file.setFileName("image-" + itemDetailID + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
-                                    upBean.store(mrequest, "file-" + i);
-                                }
-                            }
-                            else
-                            {
-                                out.println("<li>No uploaded files</li>");
-                            }
-                            
+                            db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + request.getParameter("ItemID") + "', '" + ++itemDetailID + "', '" + request.getParameter("detail-" + i) + "', '" + request.getParameter("value-" + i) + "');");
                         }
                         
                     }
@@ -219,7 +160,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     %>
                     
                     
-                    <form method="post" action="AddItemDetail.jsp" enctype="multipart/form-data">
+                    <form method="post" action="AddItemDetail.jsp">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="DataEntered" value="true" />
                         <table align="center" id="Table">
@@ -235,7 +176,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <tr>
                                 <td>
                                     <input type="button" value="New Detail" onClick="addNewDetail('Table')"/>
-                                    <input type="button" value="New Image" onClick="addNewImage('Table')"/>
                                 </td>
                                 <td>
                                     <input type="submit" value="Submit Details" />
