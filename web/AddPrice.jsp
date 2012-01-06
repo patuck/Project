@@ -178,7 +178,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" id="err-Price">
+                                <td colspan="2" id="err-Price" class="Error">
                                     
                                 </td>
                             </tr>
@@ -191,7 +191,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" id="err-Shop">
+                                <td colspan="2" id="err-Shop" class="Error">
                                     
                                 </td>
                             </tr>

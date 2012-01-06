@@ -150,7 +150,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 </td>
                             </tr>
                             <tr>
-                                <td id="err" colspan="2">
+                                <td id="err" colspan="2" class="Error">
                                     
                                 </td>
                             </tr>
