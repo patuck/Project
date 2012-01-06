@@ -33,6 +33,7 @@
         <!-- Style Sheet Import Ends Here -->
 
         <!-- Script Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <script type="text/javascript" src="Scripts/jQuery/jquery-1.6.2.js">
         </script>
         <script type="text/javascript" src="Scripts/Menu/ddsmoothmenu.js">
@@ -52,6 +53,185 @@ mainmenuid: "smoothmenu-ajax",
 customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //override default menu CSS background values? Uncomment: ["normal_background", "hover_background"]
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
+        </script>
+        
+        <script>
+            var uname=true;
+            function setUname()
+            {
+                uname = false;
+            }
+            function validateForm()
+            {
+                if(!validateEmail())
+                {
+                    alert("f1");
+                    return false;
+                }
+                else if(!validateFirstName())
+                {
+                    alert("f2");
+                    return false;
+                }
+                else if(!validateLastName())
+                {
+                    alert("f3");
+                    return false;
+                }
+                else if(!validatePassword())
+                {
+                    alert("f4");
+                    return false;
+                }
+                else if(!validateReEnterPassword())
+                {
+                    alert("f5");
+                    return false;
+                }
+                else if(!uname)
+                {
+                    alert("f6");
+                    return false;
+                }
+                alert("hi");
+                return true;
+                    
+            }
+            function validateFirstName()
+            {
+                document.getElementById('err-FirstName').innerHTML = "";
+                if(isEmpty('SignUpForm', 'FirstName'))
+                {
+                    document.getElementById('err-FirstName').innerHTML = "First name cannot be blank";
+                    return false;
+                }
+                else if(minLength(2,'SignUpForm', 'FirstName'))
+                {
+                    document.getElementById('err-FirstName').innerHTML = "First name must be atleast 2 characters long";
+                    return false;
+                }
+                else if(!isOnlyChars('SignUpForm', 'FirstName'))
+                {
+                    document.getElementById('err-FirstName').innerHTML = "First name must contain only characters";
+                    return false;
+                }
+                return true;
+            }
+            function validateLastName()
+            {
+                document.getElementById('err-LastName').innerHTML = "";
+                if(isEmpty('SignUpForm', 'LastName'))
+                {
+                    document.getElementById('err-LastName').innerHTML = "Last name cannot be blank";
+                    return false;
+                }
+                else if(minLength(2,'SignUpForm', 'LastName'))
+                {
+                    document.getElementById('err-LastName').innerHTML = "Last name must be atleast 2 characters long";
+                    return false;
+                }
+                else if(!isOnlyChars('SignUpForm', 'LastName'))
+                {
+                    document.getElementById('err-LastName').innerHTML = "Last name must contain only characters";
+                    return false;
+                }
+                return true;
+            }
+            function validateUserName()
+            {
+                uname = true;
+                document.getElementById('err-UserName').innerHTML = "";
+                if(isEmpty('SignUpForm', 'UserName'))
+                {
+                    document.getElementById('err-UserName').innerHTML = "User name cannot be blank";
+                    setUname();
+                    return false;
+                }
+                else if(minLength(4,'SignUpForm', 'UserName'))
+                {
+                    document.getElementById('err-UserName').innerHTML = "User name must be atleast 4 characters long";
+                    setUname();
+                    return false;
+                }
+                
+                var XMLHttpRequestObject = false;
+                if (window.XMLHttpRequest)
+                {
+                    XMLHttpRequestObject = new XMLHttpRequest();
+                } else if (window.ActiveXObject) 
+                {
+                    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if(XMLHttpRequestObject) 
+                {
+                    
+                    XMLHttpRequestObject.open("POST", "Validation/CheckUserName");
+                    XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+                    XMLHttpRequestObject.onreadystatechange = function() 
+                    {
+                        if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) 
+                        {
+                            if(parseInt(XMLHttpRequestObject.responseText,10) == 1)
+                            {
+                                document.getElementById('err-UserName').innerHTML = "User name already used";
+                                false;
+                                setUname();
+                            }
+                            delete XMLHttpRequestObject;
+                            XMLHttpRequestObject = null;
+                        }
+                    }
+                    XMLHttpRequestObject.send("UserName="+document.forms['SignUpForm'].elements['UserName'].value); 
+                    return ret;
+                }
+                
+            }
+            function validatePassword()
+            {
+                document.getElementById('err-Password').innerHTML = "";
+                if(isEmpty('SignUpForm', 'Password'))
+                {
+                    document.getElementById('err-Password').innerHTML = "Password cannot be blank";
+                    setUname();
+                    return false;
+                }
+                else if(minLength(4,'SignUpForm', 'Password'))
+                {
+                    document.getElementById('err-Password').innerHTML = "Password must be atleast 6 characters long";
+                    return false;
+                }
+                return true;
+            }
+            function validateReEnterPassword()
+            {
+                document.getElementById('err-ReEnterPassword').innerHTML = "";
+                if(isEmpty('SignUpForm', 'ReEnterPassword'))
+                {
+                    document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword cannot be blank";
+                    return false;
+                }
+                if(!isEqualTo('SignUpForm', 'ReEnterPassword', 'Password'))
+                {
+                    document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword must match password";
+                    return false;
+                }
+                return true;
+            }
+            function validateEmail()
+            {
+                document.getElementById('err-Email').innerHTML = "";
+                if(isEmpty('SignUpForm', 'Email'))
+                {
+                    document.getElementById('err-Email').innerHTML = "Email cannot be blank";
+                    return false;
+                }
+                else if(!isEmail('SignUpForm', 'Email'))
+                {
+                    document.getElementById('err-Email').innerHTML = "Not a valid email id";
+                    return false;
+                }
+                return true;
+            }
         </script>
         <!-- Script Declaration Ends Here -->
 
@@ -98,7 +278,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Sign Up
                 </h1>
                 <%
-                    if(request.getParameter("FirstName") != null)
+                    if(request.getParameter("UserName") != null ? (request.getParameter("UserName")!=""? true:false) : false)
                     {
                         MySQL db= new MySQL();
                         Checksum checksum = new Checksum();
@@ -122,6 +302,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'First Name','" + request.getParameter("FirstName") + "')");
                         db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Last Name','" + request.getParameter("LastName") + "')");
                         db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Email','" + request.getParameter("Email") + "')");
+                        
+                        out.println("<p align=\"center\">You have signed up successfully,<br /> Please login above or continue surfing as an unregistered user</p>");
+                        out.flush();
                     }
                     try
                     {
@@ -132,14 +315,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     }catch (NullPointerException e)
                     {
                 %>
-                <form action="#" method="Post" >
+                <form action="SignUp.jsp" id="SignUpForm" method="post" onsubmit="return validateForm()" >
                     <table align="center">
                         <tr>
                             <td>
                                 First name:
                             </td>
                             <td>
-                                <input type="text" name="FirstName"/>
+                                <input type="text" name="FirstName" onblur="return validateFirstName()"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-FirstName" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
@@ -147,7 +334,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Last name:
                             </td>
                             <td>
-                                <input type="text" name="LastName"/>
+                                <input type="text" name="LastName" onblur="return validateLastName()"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-LastName" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
@@ -155,7 +346,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 User name:
                             </td>
                             <td>
-                                <input type="text" name="UserName"/>
+                                <input type="text" name="UserName" onblur="return validateUserName()"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-UserName" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
@@ -163,7 +358,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Password:
                             </td>
                             <td>
-                                <input type="password" name="Password"/>
+                                <input type="password" name="Password" onblur="return validatePassword()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-Password" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
@@ -171,7 +370,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Re-enter password:
                             </td>
                             <td>
-                                <input type="password" name="ReEnterPassword"/>
+                                <input type="password" name="ReEnterPassword" onblur="return validateReEnterPassword()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-ReEnterPassword" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
@@ -179,14 +382,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Email id:
                             </td>
                             <td>
-                                <input type="text" name="Email"/>
+                                <input type="text" name="Email" onblur="return validateEmail()"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err-Email" colspan="2" class="Error">
                             </td>
                         </tr>
                         <tr>
                             <td>
                             </td>
                             <td>
-                                <input type="submit" style="width:70px; height:30px"/>
+                                <input type="submit" style="width:70px; height:30px" />
                             </td>
                         </tr>
                     </table>

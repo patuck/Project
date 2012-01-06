@@ -26,9 +26,9 @@ function minLength(length, formID, fieldName)
         return false;
     }
 }
-function isOnyChars(formID, fieldName)
+function isOnlyChars(formID, fieldName)
 {
-    var reg = /[A-Za-z]/;
+    var reg = /^[a-zA-Z]*$/;
     var string = document.forms[formID].elements[fieldName].value;
     if(reg.test(string) == false) 
     {
@@ -41,7 +41,7 @@ function isOnyChars(formID, fieldName)
 }
 function isOnlyDigits(formID, fieldName)
 {
-    var reg = /[0-9]/;
+    var reg = /^[0-9]*$/;
     var string = document.forms[formID].elements[fieldName].value;
     if(reg.test(string) == false) 
     {
@@ -67,7 +67,7 @@ function isEmail(formID, fieldName)
 }
 function isEqualTo(formID, sourceFieldName, destinationFieldName)
 {
-    if(document.forms[formID].elements[fieldName].value == document.forms[formID].elements[fieldName].value)
+    if(document.forms[formID].elements[sourceFieldName].value == document.forms[formID].elements[destinationFieldName].value)
     {
         return true;
     }
@@ -77,12 +77,83 @@ function isEqualTo(formID, sourceFieldName, destinationFieldName)
     }
 }
 
-function isUsedUserName(formID, fieldName, functionName)
+/*function isUsedUserName(formID, fieldName)
 {
     //functionName must be a reference to a function with one parameter text. That function must check the returned text and work with the data
-    var uname = document.forms[formID].elements[fieldName].value;
-    postDataReturnText('checkUname', uname, functionName);
+    var uname = "UserName="+document.forms[formID].elements[fieldName].value;
+    postDataReturnText('Validation/CheckUserName', uname, makeBoolean);
+}*/
+function makeBoolean(text)
+{
+    alert(text);
+    if(text == "true")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+        
 }
+
+
+
+function isUsedUserName(formID, fieldName)
+{
+    var url="Validation/CheckUserName";
+    var data="UserName="+document.forms[formID].elements[fieldName].value;
+    
+  var XMLHttpRequestObject = false; 
+
+  if (window.XMLHttpRequest) {
+    XMLHttpRequestObject = new XMLHttpRequest();
+  } else if (window.ActiveXObject) {
+    XMLHttpRequestObject = new 
+     ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  if(XMLHttpRequestObject) {
+    XMLHttpRequestObject.open("POST", url); 
+    XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+
+    
+    
+    XMLHttpRequestObject.onreadystatechange = function() 
+    { 
+        
+      if (XMLHttpRequestObject.readyState == 4 && 
+        XMLHttpRequestObject.status == 200) {
+        //alert("hi");
+          //callback(XMLHttpRequestObject.responseText); 
+          alert(XMLHttpRequestObject.responseText);
+          var ret=XMLHttpRequestObject.responseText;
+          delete XMLHttpRequestObject;
+          XMLHttpRequestObject = null;
+          return ret;
+      } 
+    }
+    XMLHttpRequestObject.send(data); 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -28,7 +28,7 @@
         catch(NullPointerException e)
         {
         }
-        if(password != null)
+        if(request.getParameter("login") != null ? (request.getParameter("login") == "true") : false )
         {
             Checksum checksum=new Checksum();
             password= checksum.getSum(password);
@@ -74,6 +74,7 @@
         {
             %>
             <form name="login" method="post" action="hidden/Login.jsp">
+                <input type="hidden" name="login" value="true" />
                 <table>
                     <tr>
                         <td>
