@@ -4,6 +4,7 @@
     Author     : Reshad
 --%>
 
+<% session.setAttribute("URL", request.getRequestURL()); %>
 <%@page import="java.io.PrintStream"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.sql.ResultSet"%>

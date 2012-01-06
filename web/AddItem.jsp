@@ -4,6 +4,7 @@
     Author     : Reshad
 --%>
 
+<% session.setAttribute("URL", request.getRequestURL()); %>
 <%@page import="javazoom.upload.UploadFile"%>
 <%@page import="java.util.Hashtable"%>
 <%@page import="java.io.IOException"%>

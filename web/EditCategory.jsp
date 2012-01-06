@@ -3,6 +3,7 @@
     Created on : Dec 25, 2011, 7:17:39 PM
     Author     : Reshad
 --%>
+<% session.setAttribute("URL", request.getRequestURL()); %>
 
 <%@page import="java.io.*"%>
 <%@page import="java.util.ArrayList"%>

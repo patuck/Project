@@ -45,7 +45,10 @@
             }
             if(userID!=null)
             {
-                out.println("<h1> Login Successfull</h1> user id "+userID);                         
+                out.println("You have Logged in successfully");   
+                response.sendRedirect(session.getAttribute("URL").toString());
+                %>
+                <%
                 session.setAttribute("UserName", userName);
                 session.setAttribute("UserID", userID);
                 session.setAttribute("Type", result.getString("Type"));
@@ -64,6 +67,7 @@
             session.removeAttribute("Type");
             session.removeAttribute("Loggedin");
             out.println("You have Logged out successfully");
+            response.sendRedirect(session.getAttribute("URL").toString());
         }
         else if(session.getAttribute("Loggedin")!= null )
         {

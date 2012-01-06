@@ -4,6 +4,7 @@
     Author     : Reshad
 --%>
 
+<% session.setAttribute("URL", request.getRequestURL()); %>
 <%@page import="java.io.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.catalog.model.Node"%>

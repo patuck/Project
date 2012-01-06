@@ -4,6 +4,7 @@
     Author     : Reshad
 --%>
 
+<% session.setAttribute("URL", request.getRequestURL()); %>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
