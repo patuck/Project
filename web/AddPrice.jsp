@@ -22,6 +22,7 @@ if(session.getAttribute("Loggedin") == "true")
             TechE
         </title>
         <!-- Style Sheet Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <link rel="stylesheet" type="text/css" href="Styles/styles.css" />
         <link rel="stylesheet" type="text/css" href="Styles/Menu/ddsmoothmenu.css" />
         <!-- Style Sheet Import Ends Here -->

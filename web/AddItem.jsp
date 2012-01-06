@@ -28,6 +28,7 @@ if(session.getAttribute("Loggedin") == "true")
         <!-- Style Sheet Import Ends Here -->
 
         <!-- Script Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <script type="text/javascript" src="Scripts/jQuery/jquery-1.6.2.js">
         </script>
         <script type="text/javascript" src="Scripts/Menu/ddsmoothmenu.js">
