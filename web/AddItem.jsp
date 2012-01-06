@@ -49,6 +49,52 @@ customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //ove
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
         </script>
+        
+        <script type="text/javascript">
+            var err= false;
+            function setErr()
+            {
+                err=true;
+            }
+            function validateForm()
+            {
+                return !err;
+            }
+            function validateName()
+            {
+                document.getElementById('err').innerHTML = "";
+                err=false;
+                var XMLHttpRequestObject = false;
+                if (window.XMLHttpRequest)
+                {
+                    XMLHttpRequestObject = new XMLHttpRequest();
+                } else if (window.ActiveXObject) 
+                {
+                    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if(XMLHttpRequestObject) 
+                {
+                    
+                    XMLHttpRequestObject.open("POST", "Validation/CheckItem");
+                    XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+                    XMLHttpRequestObject.onreadystatechange = function() 
+                    {
+                        if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) 
+                        {
+                            if(parseInt(XMLHttpRequestObject.responseText,10) == 1)
+                            {
+                                document.getElementById('err').innerHTML = "Item Already Exists in category";
+                                setErr();
+                            }
+                            delete XMLHttpRequestObject;
+                            XMLHttpRequestObject = null;
+                        }
+                    }
+                    XMLHttpRequestObject.send("Name="+ document.forms['AddItem'].elements['Name'].value + "&Category=" + document.forms['AddItem'].elements['Category'].value); 
+                }
+                return err;
+            }
+        </script>
         <!-- Script Declaration Ends Here -->
 
 
@@ -120,20 +166,20 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    }
                    itemID++;
                    db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + request.getParameter("Category") + "', '" + session.getAttribute("UserID") + "', '" + request.getParameter("Name") + "', CURRENT_TIMESTAMP);");
-                   out.println("Item added successfully. <br /> you may want to <a href=\"#\">add details</a> about the item you just added");
+                   out.println("<p align=\"center\">Item added successfully. <br /> you may want to <a href=\"AddItemDetail.jsp?ItemID=" + itemID + "\">add details</a> about the item you just added</p>");
                    db.disconnect();
                }
                else
                 {
                     %>
-                    <form method="get">
+                    <form id="AddItem" action="AddItem.jsp" method="get" onsubmit="return validateForm();">
                         <table align="center">
                             <tr>
                                 <td>
                                     Item Name
                                 </td>
                                 <td>
-                                    <input type="text" name="Name" value="" />
+                                    <input type="text" name="Name" value="" onblur="return validateName();"/>
                                 </td>
                             </tr>
                             <tr>
@@ -141,7 +187,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Category
                                 </td>
                                 <td>
-                                    <select name="Category">
+                                    <select name="Category" onchange="return validateName();">
                                         <%
                                         //Build tree of categories form database
                                         MySQL db = new MySQL();
@@ -169,6 +215,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         db.disconnect();
                                         %>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err">
+                                    
                                 </td>
                             </tr>
                             <tr>
