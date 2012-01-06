@@ -4,6 +4,10 @@
     Author     : Reshad
 --%>
 
+<%@page import="java.util.Hashtable"%>
+<%@page import="javazoom.upload.UploadFile"%>
+<%@page import="java.io.IOException"%>
+<%@page import="javazoom.upload.MultipartFormDataRequest"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*"%>
 <%@page import="com.catalog.model.MySQL"%>
@@ -11,12 +15,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-//Check if user is Logged in
-boolean isLoggedin = false;
-if(session.getAttribute("Loggedin") == "true")
+//Check if user is Moderator
+boolean isModerator = false;
+try
 {
-    isLoggedin = true;
+    if(Byte.parseByte((String) session.getAttribute("Type")) >= 5 )
+    {
+        isModerator = true;
+    }
 }
+catch(NumberFormatException e)
+{
+    ;
+}
+
 %>
 <html>
     <head>
@@ -48,6 +60,53 @@ mainmenuid: "smoothmenu-ajax",
 customtheme: ["#025091", "#007ce7"],//customtheme: ["#1c5a80", "#18374a"], //override default menu CSS background values? Uncomment: ["normal_background", "hover_background"]
 contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["container_id", "path_to_menu_file"]
 })
+        </script>
+        
+        
+        <script type="text/javascript">
+            var err= false;
+            function setErr()
+            {
+                err=true;
+            }
+            function validateForm()
+            {
+                return !err;
+            }
+            function validateName()
+            {
+                document.getElementById('err').innerHTML = "";
+                err=false;
+                var XMLHttpRequestObject = false;
+                if (window.XMLHttpRequest)
+                {
+                    XMLHttpRequestObject = new XMLHttpRequest();
+                } else if (window.ActiveXObject) 
+                {
+                    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if(XMLHttpRequestObject) 
+                {
+                    
+                    XMLHttpRequestObject.open("POST", "Validation/CheckItem");
+                    XMLHttpRequestObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+                    XMLHttpRequestObject.onreadystatechange = function() 
+                    {
+                        if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) 
+                        {
+                            if(parseInt(XMLHttpRequestObject.responseText,10) == 1)
+                            {
+                                document.getElementById('err').innerHTML = "Item Already Exists in category";
+                                setErr();
+                            }
+                            delete XMLHttpRequestObject;
+                            XMLHttpRequestObject = null;
+                        }
+                    }
+                    XMLHttpRequestObject.send("Name="+ document.forms['EditItem'].elements['Name'].value + "&Category=" + document.forms['EditItem'].elements['Category'].value); 
+                }
+                return err;
+            }
         </script>
         <!-- Script Declaration Ends Here -->
 
@@ -94,21 +153,53 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Edit Item
                 </h1>
                 <%
-                if(!isLoggedin)
+                MultipartFormDataRequest mrequest;
+                try
+                {
+                    mrequest = new MultipartFormDataRequest(request);
+                    System.out.println("mreq");
+                }
+                catch(IOException e)
+                {
+                    System.out.println("no mreq");
+                    mrequest=null;
+                }
+                if(!isModerator)
                 {
                     %>
                     <p align="center">
-                    You need to be logged in to edit an item in our catalog.<br />
+                    You need to be logged in as a Moderator to edit an item in our catalog.<br />
                     Please login above or <a href="SignUp.jsp">Sign up</a> for a new account.
                     </p>
                     <%                                          
                 }
-               else if(request.getParameter("ItemID") != null && request.getParameter("update") != null)
+               else if(mrequest != null)
                {
                    MySQL db = new MySQL();
                    db.connect();
-                   db.executeUpdate("UPDATE `catalog`.item SET `ItemName` = '" + request.getParameter("Name") + "', `CategoryID` = '" + request.getParameter("Category") + "' WHERE `ItemID` = '" + request.getParameter("ItemID") + "';");
-                   out.println("Item edited successfully. <br /> you may want to <a href=\"#\">edit details</a> about the item you just edited");
+                   db.executeUpdate("UPDATE `catalog`.item SET `ItemName` = '" + mrequest.getParameter("Name") + "', `CategoryID` = '" + mrequest.getParameter("Category") + "' WHERE `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
+                   
+                   Hashtable files = mrequest.getFiles();
+                   if ( (files != null) && (!files.isEmpty()) )
+                   {
+                       %>
+                       <%String path = getServletContext().getRealPath("Images/Items/Item-") +  mrequest.getParameter("ItemID");  %>
+                       <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
+                           <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
+                       </jsp:useBean>
+                       <%
+                       UploadFile file = (UploadFile) files.get("Image");
+                       if (file != null)
+                       {
+                           // Uses the bean now to store specified by jsp:setProperty at the top.
+                           //UPDATE `catalog`.itemdetails SET `Value` = 'image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';
+                           db.executeUpdate("UPDATE `catalog`.itemdetails SET `Value` = '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
+                           file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
+                           upBean.store(mrequest, "Image");
+                       }
+                   }
+                   
+                   out.println("<p align=\"center\">Item edited successfully. <br /> you may want to <a href=\"EditItemDetail.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">edit details</a> about the item you just edited</p>");
                    db.disconnect();
                }
                else if(request.getParameter("ItemID") != null)
@@ -118,7 +209,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    ResultSet rs = db1.executeQuery("select `ItemName`, `CategoryID`  from item where `ItemID`='" + request.getParameter("ItemID") + "';");
                    rs.next();
                     %>
-                    <form method="get">
+                    <form id="EditItem" action="EditItem.jsp" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
                         <input type="hidden" name="update" value="true" />
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <table align="center">
@@ -171,6 +262,19 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         db1.disconnect();
                                         %>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    image:
+                                </td>
+                                <td>
+                                    <input type="file" name="Image" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err" class="Error">
+                                    
                                 </td>
                             </tr>
                             <tr>
