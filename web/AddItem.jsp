@@ -4,6 +4,11 @@
     Author     : Reshad
 --%>
 
+<%@page import="javazoom.upload.UploadFile"%>
+<%@page import="java.util.Hashtable"%>
+<%@page import="java.io.IOException"%>
+<%@page import="javazoom.upload.MultipartFormDataRequest"%>
+<%@page import="javazoom.upload.MultipartFormDataRequest"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*"%>
 <%@page import="com.catalog.model.*"%>
@@ -140,6 +145,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Add Item
                 </h1>
                 <%
+                MultipartFormDataRequest mrequest;
+                try
+                {
+                    mrequest = new MultipartFormDataRequest(request);
+                    System.out.println("mreq");
+                }
+                catch(IOException e)
+                {
+                    System.out.println("no mreq");
+                    mrequest=null;
+                }
+                
                 if(!isLoggedin)
                 {
                     %>
@@ -149,7 +166,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%                                          
                 }
-               else if(request.getParameter("Name") != null)
+               else if(mrequest != null )
                {
                    MySQL db = new MySQL();
                    db.connect();
@@ -165,14 +182,41 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        itemID = 0;
                    }
                    itemID++;
-                   db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + request.getParameter("Category") + "', '" + session.getAttribute("UserID") + "', '" + request.getParameter("Name") + "', CURRENT_TIMESTAMP);");
+                   db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + mrequest.getParameter("Category") + "', '" + session.getAttribute("UserID") + "', '" + mrequest.getParameter("Name") + "', CURRENT_TIMESTAMP);");
+                   
+                   
+                   
+                   
+                   Hashtable files = mrequest.getFiles();
+                   if ( (files != null) && (!files.isEmpty()) )
+                   {
+                       %>
+                       <%String path = getServletContext().getRealPath("Images/Items/Item-") + itemID;  %>
+                       <%=path %>
+                       <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
+                           <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
+                       </jsp:useBean>
+                       <%
+                       UploadFile file = (UploadFile) files.get("Image");
+                       if (file != null)
+                       {
+                           // Uses the bean now to store specified by jsp:setProperty at the top.
+                           db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "');");
+                           file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
+                           upBean.store(mrequest, "Image");
+                       }
+                   }
+                   
+                   
+                   
                    out.println("<p align=\"center\">Item added successfully. <br /> you may want to <a href=\"AddItemDetail.jsp?ItemID=" + itemID + "\">add details</a> about the item you just added</p>");
                    db.disconnect();
                }
                else
                 {
                     %>
-                    <form id="AddItem" action="AddItem.jsp" method="get" onsubmit="return validateForm();">
+                    <form id="AddItem" action="AddItem.jsp" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+                        <input type="hidden" name="DataEntered" value="true" />
                         <table align="center">
                             <tr>
                                 <td>
@@ -215,6 +259,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         db.disconnect();
                                         %>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    image:
+                                </td>
+                                <td>
+                                    <input type="file" name="Image" value="" />
                                 </td>
                             </tr>
                             <tr>
