@@ -200,7 +200,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        }
                    }
                    
-                   out.println("<p align=\"center\">Item edited successfully. <br /> you may want to <a href=\"EditItemDetail.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">edit details</a> about the item you just edited</p>");
+                   out.println("<p align=\"center\">Item edited successfully. <br /> you may want to <a href=\"EditItemDetail.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">edit details</a> about the item you just edited<br /> Go back to <a href=\"Item.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                    db.disconnect();
                }
                else if(request.getParameter("ItemID") != null)

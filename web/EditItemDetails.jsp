@@ -129,7 +129,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         }
                         
                     }
-                    out.println("<p align=\"center\">Details modified successfully. </p>");
+                    out.println("<p align=\"center\">Details modified successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
                     
                     db.disconnect();
                 }

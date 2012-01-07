@@ -108,7 +108,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     MySQL db = new MySQL();
                     db.connect();
                     db.executeUpdate("UPDATE `catalog`.`Price` SET `Price`.`Price` = '" + request.getParameter("Price") + "', `Price`.`Shop` = '" + request.getParameter("Shop") + "', `Price`.`Link` = '" + request.getParameter("Link") + "' WHERE `Price`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Price`.`PriceID` = '" + request.getParameter("PriceID") + "';");
-                    out.println("<p align=\"center\">Price edited successfully. </p>");
+                    out.println("<p align=\"center\">Price edited successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
                 else if(request.getParameter("ItemID") != null && request.getParameter("PriceID") != null)

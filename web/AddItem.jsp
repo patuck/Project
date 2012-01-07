@@ -209,7 +209,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    
                    
                    
-                   out.println("<p align=\"center\">Item added successfully. <br /> you may want to <a href=\"AddItemDetail.jsp?ItemID=" + itemID + "\">add details</a> about the item you just added</p>");
+                   out.println("<p align=\"center\">Item added successfully. <br /> you may want to <a href=\"AddItemDetail.jsp?ItemID=" + itemID + "\">add details</a> about the item you just added<br /> Go back to <a href=\"Item.jsp?ItemID=" + itemID + "\">Item Page</a>.</p>");
                    db.disconnect();
                }
                else

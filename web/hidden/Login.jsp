@@ -41,7 +41,6 @@
             }
             catch(SQLException e)
             {
-                out.print("SQL exe");
             }
             if(userID!=null)
             {
@@ -56,7 +55,10 @@
             }
             else
             {
-                out.println("<h1> Login Failed</h1>");
+                %>
+                <h2>Logout Failed</h2>
+                <a href="<%=session.getAttribute("URL") %>">Click Here</a> to go back to the page you came from and try again
+                <%
             }
         }
                

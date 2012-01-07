@@ -134,7 +134,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     }
                     reviewID++;
                     db.executeUpdate("INSERT INTO `catalog`.review (`ItemID`, `ReviewID`, `Review`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + reviewID + "', '" + request.getParameter("Review") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
-                    out.println("<p align=\"center\">Review added successfully. </p>");
+                    out.println("<p align=\"center\">Review added successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
                 else if(request.getParameter("ItemID") != null)
@@ -168,7 +168,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else
                 {
-                    out.println("<p align=\"center\">please provide a itemID as aparameter</p>");
+                    out.println("<p align=\"center\">please provide a itemID as aparameter</p><br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
                 }
                 %>
             </div>

@@ -221,14 +221,15 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 %>
                 <div id="Reviews">
+                    <a href="AddReview.jsp?ItemID=<%=itemID %>" style="float: right;"> <img src="Images/Icons/add.png" width="15" height="15" alt="add"/>
+                            Add Review
+                        </a>
                     <h3>
                         Reviews
                     </h3>
-                    <div style="float: right;">
-                        <a href="AddReview.jsp?ItemID=<%=itemID %>"> <img src="Images/Icons/add.png" width="15" height="15" alt="add"/>
-                            Add Review
-                        </a>
-                    </div>
+                    <br />
+                    
+                            <br/>
                      <%
                      result = db.executeQuery("SELECT `review`.`ReviewID`, `review`.`Review`, `review`.`UserID`, `review`.`TimeStamp` FROM review WHERE `review`.`ItemID` = '" + request.getParameter("ItemID") + "'");
                      while(result.next())
@@ -251,10 +252,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                      String date = result.getDate(4).toString();
                                      out.println("on " + getMonthOfYear(Integer.parseInt(date.substring(5, 7))) + " " + date.substring(8, 10) + ", " + date.substring(0, 4));
                                      %>
-                                     <div style="float: right;">
-                                         <a href="EditReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" /> </a>
-                                         <a href="RemoveReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" /> </a>
-                                </div>
+                                         <a href="EditReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" width="15" height="15"  /> </a>
+                                         <a href="RemoveReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" width="15" height="15" /> </a>
                                  </div>
                              </div>
                                  <div id="Content">
@@ -291,7 +290,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </h3>
                     <a href="AddPrice.jsp?ItemID=<%=itemID %>"> <img src="Images/Icons/add.png" width="15" height="15" alt="add"/>
                         Add Price
-                
                     </a>
                     <%
                     
@@ -314,8 +312,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div class="Value">
                                 Rs. <%=result.getString(2) %>
                                 <div style="float: right;">
-                                    <a href="EditPrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" /> </a>
-                                    <a href="RemovePrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" /> </a>
+                                    <a href="EditPrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" width="15" height="15" /> </a>
+                                    <a href="RemovePrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" width="15" height="15" /> </a>
                                 </div>
                             </div>
                         </div>
