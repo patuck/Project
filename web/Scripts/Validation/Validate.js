@@ -52,6 +52,32 @@ function isOnlyDigits(formID, fieldName)
         return true;
     }
 }
+function isValidUserName(formID, fieldName)
+{
+    var reg = /^[a-zA-Z0-9_.]*$/;;
+    var string = document.forms[formID].elements[fieldName].value;
+    if(reg.test(string) == false) 
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+function containsSpace(formID, fieldName)
+{
+    var reg = /\s/;;
+    var string = document.forms[formID].elements[fieldName].value;
+    if(reg.test(string) == false) 
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
 function isEmail(formID, fieldName)
 {
    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;

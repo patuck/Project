@@ -96,7 +96,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else if(minLength(2,'SignUpForm', 'FirstName'))
                 {
-                    document.getElementById('err-FirstName').innerHTML = "First name must be atleast 2 characters long";
+                    document.getElementById('err-FirstName').innerHTML = "First name must be at least 2 characters long";
                     return false;
                 }
                 else if(!isOnlyChars('SignUpForm', 'FirstName'))
@@ -116,7 +116,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else if(minLength(2,'SignUpForm', 'LastName'))
                 {
-                    document.getElementById('err-LastName').innerHTML = "Last name must be atleast 2 characters long";
+                    document.getElementById('err-LastName').innerHTML = "Last name must be at least 2 characters long";
                     return false;
                 }
                 else if(!isOnlyChars('SignUpForm', 'LastName'))
@@ -138,7 +138,13 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else if(minLength(4,'SignUpForm', 'UserName'))
                 {
-                    document.getElementById('err-UserName').innerHTML = "User name must be atleast 4 characters long";
+                    document.getElementById('err-UserName').innerHTML = "User name must be at least 4 characters long";
+                    setUname();
+                    return false;
+                }
+                else if(!isValidUserName('SignUpForm', 'UserName'))
+                {
+                    document.getElementById('err-UserName').innerHTML = "User name must contain only alphabets, digits, underscore  character (_) or dot (.)";
                     setUname();
                     return false;
                 }
@@ -184,9 +190,15 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     setUname();
                     return false;
                 }
-                else if(minLength(4,'SignUpForm', 'Password'))
+                else if(minLength(6,'SignUpForm', 'Password'))
                 {
-                    document.getElementById('err-Password').innerHTML = "Password must be atleast 6 characters long";
+                    document.getElementById('err-Password').innerHTML = "Password must be at least 6 characters long";
+                    return false;
+                }
+                else if(containsSpace('SignUpForm', 'Password'))
+                {
+                    document.getElementById('err-Password').innerHTML = "Password cannot contain a space";
+                    setUname();
                     return false;
                 }
                 return true;
@@ -196,12 +208,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 document.getElementById('err-ReEnterPassword').innerHTML = "";
                 if(isEmpty('SignUpForm', 'ReEnterPassword'))
                 {
-                    document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword cannot be blank";
+                    document.getElementById('err-ReEnterPassword').innerHTML = "Re-enter password cannot be blank";
                     return false;
                 }
                 if(!isEqualTo('SignUpForm', 'ReEnterPassword', 'Password'))
                 {
-                    document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword must match password";
+                    document.getElementById('err-ReEnterPassword').innerHTML = "Re-enter password must match password";
                     return false;
                 }
                 return true;
@@ -380,7 +392,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <td>
                             </td>
                             <td>
-                                <input type="submit" style="width:70px; height:30px" />
+                                <input type="submit" value="SignUp" style="width:70px; height:30px" />
                             </td>
                         </tr>
                     </table>
