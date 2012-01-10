@@ -113,7 +113,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 else if(request.getParameter("ItemID") != null && request.getParameter("PriceID") != null)
                 {
                     %>
-                    <form method="post">
+                    <form method="post" action="RemovePrice.jsp">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="PriceID" value="<%=request.getParameter("PriceID") %>" />
                         <%
@@ -150,8 +150,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <tr>
                                 <td>
                                     <input type="checkbox" value="true" name="Remove" />
-                                </td>
-                                <td>
                                     Confirm removal of review 
                                 </td>
                             </tr>

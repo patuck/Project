@@ -32,6 +32,8 @@ public class MySQL
     //
     private Statement Stmt;
     private ResultSet result;
+    
+    private  Connection Conn;
     public MySQL()
     {
         host="localhost";
@@ -109,7 +111,7 @@ public class MySQL
             //Database connection url
             String url ="jdbc:mysql://"+host+":3306/"+name;
             //Start Database connection
-            Connection Conn = DriverManager.getConnection(url,userName, password);        
+            Conn = DriverManager.getConnection(url,userName, password);        
             //Create a statement object to send a query to a database
             Stmt = Conn.createStatement();
         } 
@@ -168,6 +170,39 @@ public class MySQL
          }
      }
      
+     public void setAutoCommit(boolean autoCommit)
+     {
+        try
+        {
+            Conn.setAutoCommit(autoCommit);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+     public void commit()
+     {
+        try
+        {
+            Conn.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+     public void rollback()
+     {
+        try
+        {
+            Conn.rollback();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
      
      public static void main(String [] args)
      {
