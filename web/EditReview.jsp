@@ -23,6 +23,7 @@ if(session.getAttribute("Loggedin") == "true")
             TechE
         </title>
         <!-- Style Sheet Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <link rel="stylesheet" type="text/css" href="Styles/styles.css" />
         <link rel="stylesheet" type="text/css" href="Styles/Menu/ddsmoothmenu.css" />
         <!-- Style Sheet Import Ends Here -->
@@ -36,6 +37,19 @@ if(session.getAttribute("Loggedin") == "true")
 * This notice MUST stay intact for legal use
 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
 ***********************************************/
+        </script>
+        <script type="text/javascript">
+            
+            function validateReview()
+            {
+                document.getElementById('err').innerHTML = "";
+                if(isEmpty('EitReview', 'Review'))
+                {
+                    document.getElementById('err').innerHTML = "Review cannot be blank";
+                    return false;
+                }
+                return true;
+            }
         </script>
         <!-- Script Import Ends Here -->
 
@@ -113,7 +127,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 else if(request.getParameter("ItemID") != null && request.getParameter("ReviewID") != null)
                 {
                     %>
-                    <form method="post">
+                    <form method="post" id="EitReview" action="EditReview.jsp" onsubmit="return validateReview()">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="ReviewID" value="<%=request.getParameter("ReviewID") %>" />
                         <%
@@ -127,7 +141,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <td colspan="2" align="center">
                                     Review:
                                     <br />
-                                    <textarea name="Review" rows="10" cols="80"><%=result.getString(1) %></textarea>
+                                    <textarea name="Review" rows="10" cols="80" onblur="return validateReview()"><%=result.getString(1) %></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="err" colspan="2" class="Error">
+                                    
                                 </td>
                             </tr>
                             <tr>
