@@ -4,7 +4,7 @@
     Author     : Reshad
 --%>
 
-<% session.setAttribute("URL", request.getRequestURL()); %>
+<% session.setAttribute("URL", request.getRequestURL()+"?ItemID="+request.getParameter("ItemID")); %>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
@@ -106,7 +106,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     <img src="Images/Logos/TechE Logo.png" height="100" />
                     </a>
                 </div>
-		<!-- Logo code ends here -->
+                <!-- Logo code ends here -->
                 
                 <!-- Login code starts here -->
 		<div id="Login">
@@ -155,10 +155,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     <div id="item-<%= result.getString(1) %>" class="ItemBox">
                         <div id="HeaderLine">
+                            <br/>
+                            <br/> 
+                            <div id="EditLink" style="float: right;" >
+                                <a href="EditItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
+                                    <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Item
+                                </a>
+                            </div>
                             <div id="ItemName" style="font-size: 25px;font-weight: bold;color: #FF4800;">
-                                <br/> <br/>
+                                
                                 <%= result.getString(3) %>
                             </div>
+                            
                             <div id="CategoryPath">
                                 <%
                                 ArrayList<Node> l= tree.getParentNodes(result.getString(2));
@@ -173,6 +181,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 %>
                             </div>
                         </div>
+                            <div id="EditDetailsLink" style="float: right;" >
+                                <a href="EditItemDetails.jsp?ItemID=<%=request.getParameter("ItemID") %>">
+                                    <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Details
+                                </a>
+                            </div>
+		
                         <div id="BodyArea">
                             <div id="ItemImage">
                                 <%
@@ -213,6 +227,26 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div id="rating">
                                 <!-- 5 star rating code here -->
                             </div>
+                            
+                            <table>
+                                <tr>
+                                    <!-- facebook buttons start here -->
+                                    <td>
+                                        <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
+                                    </td> 
+                                    <!-- facebook buttons end here -->
+                                    <!-- twitter button start here -->
+                                    <td>
+                                        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                                    </td>
+                                    <!-- twitter button end here -->
+                                    <!-- +1 button start here -->
+                                    <td>
+                                        <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe>
+                                    </td>
+                                    <!-- +1 button end here -->
+                                </tr>
+                            </table>
                             
                         </div>
                     </div>
