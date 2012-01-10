@@ -180,24 +180,32 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    db.connect();
                    db.executeUpdate("UPDATE `catalog`.item SET `ItemName` = '" + mrequest.getParameter("Name") + "', `CategoryID` = '" + mrequest.getParameter("Category") + "' WHERE `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
                    
-                   Hashtable files = mrequest.getFiles();
-                   if ( (files != null) && (!files.isEmpty()) )
+                   try
+                                                     
                    {
-                       %>
-                       <%String path = getServletContext().getRealPath("Images/Items/Item-") +  mrequest.getParameter("ItemID");  %>
-                       <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
-                           <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
-                       </jsp:useBean>
-                       <%
-                       UploadFile file = (UploadFile) files.get("Image");
-                       if (file != null)
+                       Hashtable files = mrequest.getFiles();
+                       if ( (files != null) && (!files.isEmpty()) )
                        {
-                           // Uses the bean now to store specified by jsp:setProperty at the top.
-                           //UPDATE `catalog`.itemdetails SET `Value` = 'image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';
-                           db.executeUpdate("UPDATE `catalog`.itemdetails SET `Value` = '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
-                           file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
-                           upBean.store(mrequest, "Image");
+                           %>
+                           <%String path = getServletContext().getRealPath("Images/Items/Item-") +  mrequest.getParameter("ItemID");  %>
+                           <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
+                               <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
+                           </jsp:useBean>
+                           <%
+                           UploadFile file = (UploadFile) files.get("Image");
+                           if (file != null)
+                           {
+                               // Uses the bean now to store specified by jsp:setProperty at the top.
+                               //UPDATE `catalog`.itemdetails SET `Value` = 'image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';
+                               db.executeUpdate("UPDATE `catalog`.itemdetails SET `Value` = '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
+                               file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
+                               upBean.store(mrequest, "Image");
+                           }
                        }
+                   }
+                   catch(NullPointerException e)
+                   {
+                       
                    }
                    
                    out.println("<p align=\"center\">Item edited successfully. <br /> you may want to <a href=\"EditItemDetail.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">edit details</a> about the item you just edited<br /> Go back to <a href=\"Item.jsp?ItemID=" + mrequest.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
