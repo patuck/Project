@@ -140,14 +140,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 else if(request.getParameter("ItemID") != null)
                 {
                     %>
-                    <form method="post" id="AddReview" action="AddReview.jsp" onsubmit="return validateReview();">
+                    <form method="post" id="AddReview" action="AddReview.jsp" onsubmit="return validateReview()">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <table align="center">
                             <tr>
                                 <td colspan="2" align="center">
                                     Review:
                                     <br />
-                                    <textarea name="Review" rows="10" cols="80"></textarea>
+                                    <textarea name="Review" rows="10" cols="80" onblur="return validateReview()"></textarea>
                                 </td>
                             </tr>
                             <tr>
