@@ -4,7 +4,7 @@
     Author     : Reshad
 --%>
 
-<% session.setAttribute("URL", request.getRequestURL()); %>
+<% session.setAttribute("URL", request.getRequestURL() + "?Category=" + request.getParameter("Category")); %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.catalog.model.Node"%>
 <%@page import="com.catalog.model.Tree"%>
@@ -12,6 +12,23 @@
 <%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%
+//Check if user is admin
+boolean isAdmin = false;
+try
+{
+    if(Byte.parseByte((String) session.getAttribute("Type")) >= 9 )
+    {
+        isAdmin = true;
+    }
+}
+catch(NumberFormatException e)
+{
+    ;
+}
+
+%>
 
 <html>
     <head>
@@ -120,7 +137,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     pageNo=0;
                 }
                 out.println("<h1>" + tree.getList().get(Integer.parseInt(request.getParameter("Category"))).getData() + "</h1>");
-                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") + "' ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
+                ArrayList<Node> children = tree.getChildren(request.getParameter("Category"));
+                String whereClauze="";
+                for(int i=0;i<children.size();i++)
+                {
+                    whereClauze += " OR `Item`.`CategoryID` = '" + children.get(i).getNodeID() + "' "; 
+                }
+                //System.out.println("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
+                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
                 while(result.next())
                 {
                     %>
@@ -186,13 +210,32 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div id="rating">
                                 <!-- 5 star rating code here -->
                             </div>
+                            <table>
+                                <tr>
+                                    <!-- facebook buttons start here -->
+                                    <td>
+                                        <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
+                                    </td> 
+                                    <!-- facebook buttons end here -->
+                                    <!-- twitter button start here -->
+                                    <td>
+                                        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                                    </td>
+                                    <!-- twitter button end here -->
+                                    <!-- +1 button start here -->
+                                    <td>
+                                        <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe>
+                                    </td>
+                                    <!-- +1 button end here -->
+                                </tr>
+                            </table>
                             
                         </div>
                     </div>
                         
                     <%
                 }
-                db.disconnect();
+                
                 %>
                 
                 <div id="PageSelecter">
@@ -207,9 +250,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Page <%=(pageNo+1) %>
                             </td>
                             <td>
-                                <a href="Categories.jsp?Category=<%=request.getParameter("Category") %>&Page=<%=(pageNo+1) %>">
+                                <%
+                                result= db.executeQuery("SELECT COUNT(`TimeStamp`) FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ;");
+                                result.next();
+                                %>
+                                <a href="Categories.jsp?Category=<%=request.getParameter("Category") %>&Page=<%= Long.parseLong(result.getString(1))<=((pageNo+1)*5)  ? pageNo :(pageNo+1) %>">
                                 Next
                                 </a>
+                                <%
+                                db.disconnect();
+                                %>
                             </td>
                         </tr>
                     </table>
@@ -226,11 +276,24 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- Right colum starts here -->
             <div id="right">
                 <a href="AddItem.jsp">
-                    Add an Item to our Listings
+                    <img src="Images/Icons/add.png" width="15" height="15"/> Add Item
                 </a>
-                <a href="AddCategory.jsp">
-                    Add a Category to our list
-                </a>
+                <br />
+                <%
+                if(isAdmin)
+                {
+                    %>
+                    <a href="AddCategory.jsp">
+                        <img src="Images/Icons/add.png" width="15" height="15" />Add Category
+                    </a>
+                    <br />
+                    <a href="EditCategory.jsp?CategoryID=<%=request.getParameter("Category") %>">
+                        <img src="Images/Icons/pencil.png" width="15" height="15" />Add Category
+                    </a>
+                    <br />
+                    <%
+                }
+                %>
             </div>
             <!-- Right colum ends here -->
 	
