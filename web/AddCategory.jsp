@@ -85,12 +85,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
                 
                 document.getElementById('err').innerHTML = "";
+                err=false;
                 if(isEmpty('AddCategory', 'Name'))
                 {
                     document.getElementById('err').innerHTML = "Category name cannot be blank";
                     setErr();
                 }
-                err=false;
                 var XMLHttpRequestObject = false;
                 if (window.XMLHttpRequest)
                 {

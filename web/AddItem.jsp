@@ -57,7 +57,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
         </script>
         
         <script type="text/javascript">
-            var err= false;
+            var err= true;
             function setErr()
             {
                 err=true;
@@ -70,6 +70,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
+                if(isEmpty('AddItem', 'Name'))
+                {
+                    document.getElementById('err').innerHTML = "Item name cannot be blank";
+                    setErr();
+                }
                 var XMLHttpRequestObject = false;
                 if (window.XMLHttpRequest)
                 {
@@ -201,9 +206,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        if (file != null)
                        {
                            // Uses the bean now to store specified by jsp:setProperty at the top.
-                           db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "');");
-                           file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
-                           upBean.store(mrequest, "Image");
+                           try
+                           {
+                               db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "');");
+                               file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
+                               upBean.store(mrequest, "Image");
+                           }
+                           catch(NullPointerException e)
+                           {
+                               db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + "NoFile"  + "');");
+                           }
                        }
                    }
                    
