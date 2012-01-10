@@ -53,6 +53,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 })
         </script>
         <script type="text/javascript">
+            function validateForm()
+            {
+                if(!validatePassword())
+                {
+                    return false;
+                }
+                if(!validateReEnterPassword())
+                {
+                    return false;
+                }
+            }
             function validateReEnterPassword()
             {
                 document.getElementById('err-ReEnterPassword').innerHTML = "";
@@ -76,13 +87,31 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     document.getElementById('err-Password').innerHTML = "New Password cannot be blank";
                     return false;
                 }
-                else if(minLength(4,'ChangePassword', 'Password'))
+                else if(minLength(6,'ChangePassword', 'Password'))
                 {
                     document.getElementById('err-Password').innerHTML = "New Password must be atleast 6 characters long";
                     return false;
                 }
+                else if(containsSpace('ChangePassword', 'Password'))
+                {
+                    document.getElementById('err-Password').innerHTML = "New Password cannot contain a space";
+                    setUname();
+                    return false;
+                }
                 return true;
             }
+            function validateOldPassword()
+            {
+                document.getElementById('err-oldPassword').innerHTML = "";
+                if(isEmpty('ChangePassword', 'oldPassword'))
+                {
+                    document.getElementById('err-oldPassword').innerHTML = "Old Password cannot be blank";
+                    return false;
+                }
+                return true;
+            }
+            
+            
         </script>
         <!-- Script Declaration Ends Here -->
 
@@ -132,7 +161,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
                 if(!isLoggedin)
                 {
-                    out.println("<p align=\"center\">login before tou attempt to change pasword</p>");
+                    out.println("<p align=\"center\">login before you attempt to change pasword</p>");
                 }
                 else if(request.getParameter("oldPassword")!= null)
                 {
@@ -148,6 +177,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         String s="UPDATE `catalog`.`user` SET `Password` = '" + newPass + "' WHERE `UserID` = '" + session.getAttribute("UserID") + "';";
                         db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + newPass + "' WHERE `UserID` = '" + session.getAttribute("UserID") + "';");
                         out.println("<p align=\"center\">Password changed successfully</p>");
+                    }
+                    else
+                    {
+                        out.println("<p align=\"center\">Failed to change password</p>");
                     }
                     db.disconnect();
                 }
@@ -175,7 +208,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 old Password
                             </td>
                             <td>
-                                <input type="password" name="oldPassword"  />
+                                <input type="password" name="oldPassword" onblur="return validateOldPassword()" />
                             </td>
                         </tr>
                         <tr>
