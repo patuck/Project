@@ -42,6 +42,7 @@ catch(NumberFormatException e)
         <!-- Style Sheet Import Ends Here -->
 
         <!-- Script Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <script type="text/javascript" src="Scripts/jQuery/jquery-1.6.2.js">
         </script>
         <script type="text/javascript" src="Scripts/Menu/ddsmoothmenu.js">
@@ -78,6 +79,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
+                if(isEmpty('EditItem', 'Name'))
+                {
+                    document.getElementById('err').innerHTML = "Item name cannot be blank";
+                    setErr();
+                }
                 var XMLHttpRequestObject = false;
                 if (window.XMLHttpRequest)
                 {
@@ -227,7 +233,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Item Name
                                 </td>
                                 <td>
-                                    <input type="text" name="Name" value="<%=rs.getString(1) %>" />
+                                    <input type="text" name="Name" value="<%=rs.getString(1) %>" onblur="return validateName();" />
                                 </td>
                             </tr>
                             <tr>
@@ -235,7 +241,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Category
                                 </td>
                                 <td>
-                                    <select name="Category">
+                                    <select name="Category" onchange="return validateName();">
                                         <%
                                         //Build tree of categories form database
                                         MySQL db = new MySQL();
