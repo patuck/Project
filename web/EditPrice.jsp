@@ -23,6 +23,7 @@ if(session.getAttribute("Loggedin") == "true")
             TechE
         </title>
         <!-- Style Sheet Import Starts Here -->
+        <script type="text/javascript" src="Scripts/Validation/Validate.js"></script>
         <link rel="stylesheet" type="text/css" href="Styles/styles.css" />
         <link rel="stylesheet" type="text/css" href="Styles/Menu/ddsmoothmenu.css" />
         <!-- Style Sheet Import Ends Here -->
@@ -36,6 +37,46 @@ if(session.getAttribute("Loggedin") == "true")
 * This notice MUST stay intact for legal use
 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
 ***********************************************/
+        </script>
+        <script>
+            function validateForm()
+            {
+                
+                if(!validatePrice())
+                {
+                    return false;
+                }
+                else if(!validateShop())
+                {
+                    return false;
+                }
+                return true;
+            }
+            function validatePrice()
+            {
+                document.getElementById('err-Price').innerHTML = "";
+                if(isEmpty('EditPrice', 'Price'))
+                {
+                    document.getElementById('err-Price').innerHTML = "Price cannot be blank";
+                    return false;
+                }
+                else if(!isOnlyDigits('EditPrice', 'Price'))
+                {
+                    document.getElementById('err-Price').innerHTML = "Price name must contain only digits";
+                    return false;
+                }
+                return true;
+            }
+            function validateShop()
+            {
+                document.getElementById('err-Shop').innerHTML = "";
+                if(isEmpty('EditPrice', 'Shop'))
+                {
+                    document.getElementById('err-Shop').innerHTML = "Shop cannot be blank";
+                    return false;
+                }
+                return true;
+            }
         </script>
         <!-- Script Import Ends Here -->
 
@@ -114,7 +155,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 else if(request.getParameter("ItemID") != null && request.getParameter("PriceID") != null)
                 {
                     %>
-                    <form method="post">
+                    <form  action="EditPrice.jsp" id="EditPrice" method="post" onsubmit="return validateForm();" >
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="PriceID" value="<%=request.getParameter("PriceID") %>" />
                         <%
@@ -129,7 +170,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Price
                                 </td>
                                 <td>
-                                    <input type="text" name="Price" value="<%=result.getString(1) %>" />
+                                    <input type="text" name="Price" value="<%=result.getString(1) %>" onblur="return validatePrice();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err-Price" class="Error">
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -137,7 +183,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Shop
                                 </td>
                                 <td>
-                                    <input type="text" name="Shop" value="<%=result.getString(2) %>" />
+                                    <input type="text" name="Shop" value="<%=result.getString(2) %>" onblur="return validateShop();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="err-Shop" class="Error">
+                                    
                                 </td>
                             </tr>
                             <tr>
