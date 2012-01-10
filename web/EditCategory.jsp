@@ -82,6 +82,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
+                if(isEmpty('EditCategory', 'Name'))
+                {
+                    document.getElementById('err').innerHTML = "Category name cannot be blank";
+                    setErr();
+                }
                 var XMLHttpRequestObject = false;
                 if (window.XMLHttpRequest)
                 {
@@ -260,7 +265,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     <td>
                                     </td>
                                     <td>
-                                        <input type="submit" value="Add Category" />
+                                        <input type="submit" value="Edit Category" />
                                     </td>
                                 </tr>
                             </table>
