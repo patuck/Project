@@ -13,6 +13,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<%
+//Check if user is admin
+boolean isAdmin = false;
+try
+{
+    if(Byte.parseByte((String) session.getAttribute("Type")) >= 9 )
+    {
+        isAdmin = true;
+    }
+}
+catch(NumberFormatException e)
+{
+    ;
+}
+
+%>
+
+
 <html>
     <head>
         <title>
@@ -203,7 +221,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         
                     <%
                 }
-                db.disconnect();
                 %>
                 
                 <div id="PageSelecter">
@@ -218,9 +235,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Page <%=(pageNo+1) %>
                             </td>
                             <td>
-                                <a href="index.jsp?Page=<%=(pageNo+1) %>">
+                                <%
+                                result= db.executeQuery("SELECT COUNT(`TimeStamp`) FROM `Catalog`.`Item` ;");
+                                result.next();
+                                %>
+                                <a href="index.jsp?Page=<%= Long.parseLong(result.getString(1))<=((pageNo+1)*5)  ? pageNo :(pageNo+1) %>">
                                 Next
                                 </a>
+                                <%
+                                db.disconnect();
+                                %>
                             </td>
                         </tr>
                     </table>
@@ -237,11 +261,24 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- Right colum starts here -->
             <div id="right">
                 <a href="AddItem.jsp">
-                    Add an Item to our Listings
+                    <img src="Images/Icons/add.png" width="15" height="15"/> Add Item
                 </a>
-                <a href="AddCategory.jsp">
-                    Add a Category to our list
-                </a>
+                <br/>
+                <%
+                if(isAdmin)
+                {
+                    %>
+                    <a href="AddCategory.jsp">
+                        <img src="Images/Icons/add.png" width="15" height="15" />Add Category
+                    </a>
+                    <br />
+                    <a href="ManageUsers.jsp">
+                        <img src="Images/Icons/user.png" width="15" height="15" />Manage Users
+                    </a>
+                    <br />
+                    <%
+                }
+                %>
             </div>
             <!-- Right colum ends here -->
 	
