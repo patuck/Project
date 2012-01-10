@@ -82,7 +82,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             }
             function validateCategory()
             {
+                
+                
                 document.getElementById('err').innerHTML = "";
+                if(isEmpty('AddCategory', 'Name'))
+                {
+                    document.getElementById('err').innerHTML = "Category name cannot be blank";
+                    setErr();
+                }
                 err=false;
                 var XMLHttpRequestObject = false;
                 if (window.XMLHttpRequest)
@@ -119,7 +126,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 
 
     </head>
-    <body>
+    <body onload="setErr();">
 
         <div id="wrap">
 	
@@ -165,7 +172,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     {
                         out.println("You are not authorized to add a category.<br />Please contact an administrator if you feel a category is missing from this web site.<br />You will now be redirected back to our home page.");
                     }
-                   else if (request.getParameter("Name")!=null)
+                   else if(request.getParameter("AddCategorySubmit") != null ? (request.getParameter("AddCategorySubmit").equals("true") ? true : false) : false)
                    {
                        MySQL db = new MySQL();
                        db.connect();
@@ -197,7 +204,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        }
                        tree.makeMenu(getServletContext().getRealPath("Scripts/Menu/menu.html"));
                        db.disconnect();
-                       
+                       out.println("<p align=\"center\">Category Added Successfully</p>");
                        
                    }
                     else
@@ -205,6 +212,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         %>
                         
                         <form method="post" id="AddCategory" action="AddCategory.jsp" onsubmit="return validateForm();">
+                            <input type="hidden" name="AddCategorySubmit" value="true" />
                             <table>
                                 <tr>
                                     <td>
