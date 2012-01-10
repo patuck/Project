@@ -13,7 +13,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <html>
     <head>
         <title>
             TechE
@@ -136,7 +135,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         }
                         }
                         catch(SQLException e){
-                            out.print(e.getMessage());
+                            //out.print(e.getMessage());
                         }
                         
                         
@@ -156,7 +155,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     else
                     {
                 %>
-                <form action="" method="get">
+                <form action="ForgotPassword.jsp" method="post">
                 
                     <table align="center">
                         <tbody>
