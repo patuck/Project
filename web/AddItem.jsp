@@ -189,8 +189,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    }
                    itemID++;
                    db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + mrequest.getParameter("Category") + "', '" + session.getAttribute("UserID") + "', '" + mrequest.getParameter("Name") + "', CURRENT_TIMESTAMP);");
-                   db.setAutoCommit(false);
-                   db.commit();
                    
                    
                    Hashtable files = mrequest.getFiles();
@@ -203,7 +201,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        </jsp:useBean>
                        <%
                        UploadFile file = (UploadFile) files.get("Image");
-                       if (file != null)
+                       if (file.getFileName() != null)
                        {
                            // Uses the bean now to store specified by jsp:setProperty at the top.
                            try
@@ -214,11 +212,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                            }
                            catch(NullPointerException e)
                            {
-                               db.rollback();
-                               db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + "NoFile"  + "');");
-                               db.commit();
-                               db.setAutoCommit(true);
                            }
+                       }
+                       else
+                       {
+                           db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "NoFile"  + "');");
+                           
                        }
                    }
                    

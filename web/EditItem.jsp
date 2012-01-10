@@ -199,7 +199,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                            </jsp:useBean>
                            <%
                            UploadFile file = (UploadFile) files.get("Image");
-                           if (file != null)
+                           out.print(file.getFileName());
+                           if (file.getFileName() != null)
                            {
                                // Uses the bean now to store specified by jsp:setProperty at the top.
                                //UPDATE `catalog`.itemdetails SET `Value` = 'image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';

@@ -288,7 +288,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </a>
                     <br />
                     <a href="EditCategory.jsp?CategoryID=<%=request.getParameter("Category") %>">
-                        <img src="Images/Icons/pencil.png" width="15" height="15" />Add Category
+                        <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Category
                     </a>
                     <br />
                     <%
