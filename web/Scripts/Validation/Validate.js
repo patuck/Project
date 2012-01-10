@@ -139,24 +139,6 @@ function isUsedUserName(formID, fieldName)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function postDataReturnText(url, data, callback)
 { 
   var XMLHttpRequestObject = false; 
