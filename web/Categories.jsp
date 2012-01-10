@@ -199,7 +199,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     <table align="center">
                         <tr>
                             <td>
-                                <a href="index.jsp?Page=<%=(pageNo!=0 ? (pageNo-1) : 0) %>">
+                                <a href="Categories.jsp?Category=<%=request.getParameter("Category") %>&Page=<%=(pageNo!=0 ? (pageNo-1) : 0) %>">
                                 Previous
                                 </a>
                             </td>
@@ -207,7 +207,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Page <%=(pageNo+1) %>
                             </td>
                             <td>
-                                <a href="index.jsp?Page=<%=(pageNo+1) %>">
+                                <a href="Categories.jsp?Category=<%=request.getParameter("Category") %>&Page=<%=(pageNo+1) %>">
                                 Next
                                 </a>
                             </td>
