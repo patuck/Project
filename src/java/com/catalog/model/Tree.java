@@ -112,6 +112,21 @@ public class Tree
          {
          }
     }
+    public ArrayList<Node> getChildren(String nodeID)
+    {
+        ArrayList<Node> children = new ArrayList<Node>();
+        for(int i=0; i<nodeList.size(); i++)
+        {
+            if(nodeList.get(i).getParentID().equals(nodeID))
+            {
+                //System.out.println("found child");
+                children.add(nodeList.get(i));
+                children.addAll(getChildren(nodeList.get(i).getNodeID()));
+                //getChildren(nodeList.get(i).getNodeID());
+            }
+        }
+        return children;
+    }
     
     
     
