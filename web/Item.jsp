@@ -179,7 +179,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
                                 itemID=result.getString(1);
-                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
+                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "'");
                                 itemDetails.next();
                                 %>
                                 <img src="Images/Items/Item-<%=itemID %>/<%=itemDetails.getString(2) %>" />
