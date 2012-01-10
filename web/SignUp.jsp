@@ -18,9 +18,6 @@
             {
                 out.println("<meta http-equiv=\"refresh\" content=\"5; url=index.jsp\">");
             }
-            catch (NullPointerException e)
-            {
-            }
         %>
         <title>
             TechE
