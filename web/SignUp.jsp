@@ -14,12 +14,9 @@
 <html>
     <head>
         <%
-            try
+            if(session.getAttribute("Loggedin") != null ? (session.getAttribute("Loggedin").equals("true") ? true : false) : false)
             {
-                if(session.getAttribute("loggedin").equals("true"))
-                {
-                    out.println("<meta http-equiv=\"refresh\" content=\"5; url=index.jsp\">");
-                }
+                out.println("<meta http-equiv=\"refresh\" content=\"5; url=index.jsp\">");
             }
             catch (NullPointerException e)
             {
@@ -64,15 +61,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             }
             function validateForm()
             {
-                if(!validateEmail())
-                {
-                    return false;
-                }
-                else if(!validateFirstName())
+                
+                if(!validateFirstName())
                 {
                     return false;
                 }
                 else if(!validateLastName())
+                {
+                    return false;
+                }
+                else if(!uname)
                 {
                     return false;
                 }
@@ -84,7 +82,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     return false;
                 }
-                else if(!uname)
+                else if(!validateEmail())
                 {
                     return false;
                 }
@@ -272,7 +270,11 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     Sign Up
                 </h1>
                 <%
-                    if(request.getParameter("UserName") != null ? (request.getParameter("UserName")!=""? true:false) : false)
+                    if(session.getAttribute("Loggedin") != null ? (session.getAttribute("Loggedin").equals("true") ? true : false) : false)
+                    {
+                        out.println("<p align=\"center\">You are already logged in Redirecting you to the home page</p>");
+                    }
+                    else if(request.getParameter("UserName") != null ? (request.getParameter("UserName")!=""? true:false) : false)
                     {
                         MySQL db= new MySQL();
                         Checksum checksum = new Checksum();
@@ -300,13 +302,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         out.println("<p align=\"center\">You have signed up successfully,<br /> Please login above or continue surfing as an unregistered user</p>");
                         out.flush();
                     }
-                    try
-                    {
-                        if(session.getAttribute("loggedin").equals("true"))
-                        {
-                            out.println("<p align=\"center\">You are already logged in Redirecting you to the home page</p>");
-                        }
-                    }catch (NullPointerException e)
+                    else
                     {
                 %>
                 <form action="SignUp.jsp" id="SignUpForm" method="post" onsubmit="return validateForm()" >
