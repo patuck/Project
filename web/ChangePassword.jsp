@@ -67,12 +67,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateReEnterPassword()
             {
                 document.getElementById('err-ReEnterPassword').innerHTML = "";
-                if(isEmpty('ChangePassword', 'ReEnterPassword'))
+                if(isEmpty('ChangePassword', 'pwdReEnterPassword'))
                 {
                     document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword cannot be blank";
                     return false;
                 }
-                if(!isEqualTo('ChangePassword', 'ReEnterPassword', 'Password'))
+                if(!isEqualTo('ChangePassword', 'pwdReEnterPassword', 'pwdPassword'))
                 {
                     document.getElementById('err-ReEnterPassword').innerHTML = "ReEnterPassword must match password";
                     return false;
@@ -82,17 +82,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validatePassword()
             {
                 document.getElementById('err-Password').innerHTML = "";
-                if(isEmpty('ChangePassword', 'Password'))
+                if(isEmpty('ChangePassword', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "New Password cannot be blank";
                     return false;
                 }
-                else if(minLength(6,'ChangePassword', 'Password'))
+                else if(minLength(6,'ChangePassword', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "New Password must be atleast 6 characters long";
                     return false;
                 }
-                else if(containsSpace('ChangePassword', 'Password'))
+                else if(containsSpace('ChangePassword', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "New Password cannot contain a space";
                     setUname();
@@ -103,7 +103,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateOldPassword()
             {
                 document.getElementById('err-oldPassword').innerHTML = "";
-                if(isEmpty('ChangePassword', 'oldPassword'))
+                if(isEmpty('ChangePassword', 'pwdOldPassword'))
                 {
                     document.getElementById('err-oldPassword').innerHTML = "Old Password cannot be blank";
                     return false;
@@ -163,17 +163,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     out.println("<p align=\"center\">login before you attempt to change pasword</p>");
                 }
-                else if(request.getParameter("oldPassword")!= null)
+                else if(request.getParameter("pwdOldPassword")!= null)
                 {
                     MySQL db= new MySQL();
                     db.connect();
                     ResultSet rs = db.executeQuery("SELECT `Password` from `user` WHERE `UserID`='" + session.getAttribute("UserID") + "';");
                     rs.next();
                     Checksum c=new Checksum();
-                    String oldPass= c.getSum(request.getParameter("oldPassword"));
+                    String oldPass= c.getSum(request.getParameter("pwdOldPassword"));
                     if(oldPass.equals(rs.getString(1)))
                     {
-                        String newPass= c.getSum(request.getParameter("Password"));
+                        String newPass= c.getSum(request.getParameter("pwdPassword"));
                         String s="UPDATE `catalog`.`user` SET `Password` = '" + newPass + "' WHERE `UserID` = '" + session.getAttribute("UserID") + "';";
                         db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + newPass + "' WHERE `UserID` = '" + session.getAttribute("UserID") + "';");
                         out.println("<p align=\"center\">Password changed successfully</p>");
@@ -208,7 +208,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 old Password
                             </td>
                             <td>
-                                <input type="password" name="oldPassword" onblur="return validateOldPassword()" />
+                                <input type="password" name="pwdOldPassword" onblur="return validateOldPassword()" />
                             </td>
                         </tr>
                         <tr>
@@ -220,7 +220,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 New Password
                             </td>
                             <td>
-                                <input type="password" name="Password" onblur="return validatePassword()" />
+                                <input type="password" name="pwdPassword" onblur="return validatePassword()" />
                             </td>
                         </tr>
                         <tr>
@@ -232,7 +232,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Re-enter password
                             </td>
                             <td>
-                                <input type="password" name="ReEnterPassword" onblur="return validateReEnterPassword()" />
+                                <input type="password" name="pwdReEnterPassword" onblur="return validateReEnterPassword()" />
                             </td>
                         </tr>
                         <tr>
