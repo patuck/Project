@@ -102,7 +102,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(request.getParameter("Remove") != null ? (request.getParameter("Remove").equals("true")? true : false) : false)
+                else if(request.getParameter("checkboxRemove") != null ? (request.getParameter("checkboxRemove").equals("true")? true : false) : false)
                 {
                     MySQL db = new MySQL();
                     db.connect();
@@ -149,8 +149,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" value="true" name="Remove" />
-                                    Confirm removal of review 
+                                    <input type="checkbox" value="true" name="checkboxRemove" />
+                                    Confirm removal of price 
                                 </td>
                             </tr>
                             <tr>

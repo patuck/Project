@@ -55,12 +55,12 @@ if(session.getAttribute("Loggedin") == "true")
             function validatePrice()
             {
                 document.getElementById('err-Price').innerHTML = "";
-                if(isEmpty('EditPrice', 'Price'))
+                if(isEmpty('EditPrice', 'txtPrice'))
                 {
                     document.getElementById('err-Price').innerHTML = "Price cannot be blank";
                     return false;
                 }
-                else if(!isOnlyDigits('EditPrice', 'Price'))
+                else if(!isOnlyDigits('EditPrice', 'txtPrice'))
                 {
                     document.getElementById('err-Price').innerHTML = "Price name must contain only digits";
                     return false;
@@ -70,7 +70,7 @@ if(session.getAttribute("Loggedin") == "true")
             function validateShop()
             {
                 document.getElementById('err-Shop').innerHTML = "";
-                if(isEmpty('EditPrice', 'Shop'))
+                if(isEmpty('EditPrice', 'txtShop'))
                 {
                     document.getElementById('err-Shop').innerHTML = "Shop cannot be blank";
                     return false;
@@ -143,12 +143,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(request.getParameter("Price") != null)
+                else if(request.getParameter("txtPrice") != null)
                 {
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    db.executeUpdate("UPDATE `catalog`.`Price` SET `Price`.`Price` = '" + request.getParameter("Price") + "', `Price`.`Shop` = '" + request.getParameter("Shop") + "', `Price`.`Link` = '" + request.getParameter("Link") + "' WHERE `Price`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Price`.`PriceID` = '" + request.getParameter("PriceID") + "';");
+                    db.executeUpdate("UPDATE `catalog`.`Price` SET `Price`.`Price` = '" + request.getParameter("txtPrice") + "', `Price`.`Shop` = '" + request.getParameter("txtShop") + "', `Price`.`Link` = '" + request.getParameter("txtLink") + "' WHERE `Price`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Price`.`PriceID` = '" + request.getParameter("PriceID") + "';");
                     out.println("<p align=\"center\">Price edited successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
@@ -170,7 +170,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Price
                                 </td>
                                 <td>
-                                    <input type="text" name="Price" value="<%=result.getString(1) %>" onblur="return validatePrice();" />
+                                    <input type="text" name="txtPrice" value="<%=result.getString(1) %>" onblur="return validatePrice();" />
                                 </td>
                             </tr>
                             <tr>
@@ -183,7 +183,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Shop
                                 </td>
                                 <td>
-                                    <input type="text" name="Shop" value="<%=result.getString(2) %>" onblur="return validateShop();" />
+                                    <input type="text" name="txtShop" value="<%=result.getString(2) %>" onblur="return validateShop();" />
                                 </td>
                             </tr>
                             <tr>
@@ -196,14 +196,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Link
                                 </td>
                                 <td>
-                                    <input type="text" name="Link" value="<%=result.getString(3) %>" />
+                                    <input type="text" name="txtLink" value="<%=result.getString(3) %>" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                 </td>
                                 <td>
-                                    <input type="submit" value="Submit price" />
+                                    <input type="submit" value="Edit Price" />
                                 </td>
                             </tr>
                         </table>
