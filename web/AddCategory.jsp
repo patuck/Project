@@ -86,7 +86,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
                 document.getElementById('err').innerHTML = "";
                 err=false;
-                if(isEmpty('AddCategory', 'Name'))
+                if(isEmpty('AddCategory', 'txtName'))
                 {
                     document.getElementById('err').innerHTML = "Category name cannot be blank";
                     setErr();
@@ -117,7 +117,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("Name="+ document.forms['AddCategory'].elements['Name'].value + "&ParentCategory=" + document.forms['AddCategory'].elements['ParentCategory'].value); 
+                    XMLHttpRequestObject.send("Name="+ document.forms['AddCategory'].elements['txtName'].value + "&ParentCategory=" + document.forms['AddCategory'].elements['listParentCategory'].value); 
                 }
                 return err;
             }
@@ -188,7 +188,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                            categoryID = 0;
                        }
                        categoryID++;
-                       db.executeUpdate("INSERT INTO `catalog`.category (`CategoryID`, `UserID`, `CategoryName`, `ParentCategoryID`) VALUES ('" + categoryID + "','" + session.getAttribute("UserID") + "', '" + request.getParameter("Name") + "', '" + request.getParameter("ParentCategory") + "')");
+                       db.executeUpdate("INSERT INTO `catalog`.category (`CategoryID`, `UserID`, `CategoryName`, `ParentCategoryID`) VALUES ('" + categoryID + "','" + session.getAttribute("UserID") + "', '" + request.getParameter("txtName") + "', '" + request.getParameter("listParentCategory") + "')");
                        //db.executeUpdate("");
                        
                        
@@ -219,7 +219,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         Category Name:
                                     </td>
                                     <td>
-                                        <input type="text" name="Name" value="" onblur="return validateCategory();"/>
+                                        <input type="text" name="txtName" value="" onblur="return validateCategory();"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -227,7 +227,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         Parent Category:
                                     </td>
                                     <td>
-                                        <select name="ParentCategory" onchange="return validateCategory();">
+                                        <select name="listParentCategory" onchange="return validateCategory();">
                                             <option value="0">
                                                 - -
                                             </option>
