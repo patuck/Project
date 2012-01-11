@@ -90,17 +90,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 <%
                     //try{
                                
-                    if(request.getParameter("Email") != null)
+                    if(request.getParameter("txtEmail") != null)
                     {
                         MySQL db = new MySQL();
                         db.connect();
                         //ResultSet rs = db.executeQuery("SELECT `user`.`UserName` FROM `user` WHERE `user`.`UserName` = '" + request.getParameter("UserName") + "';");
-                        ResultSet rs = db.executeQuery("SELECT  userdetails.`Value` FROM userdetails WHERE `UserID` = (SELECT `user`.`UserID` FROM `user` WHERE `user`.`UserName`='" + request.getParameter("UserName") + "') AND userdetails.`Detail` = 'Email'");
+                        ResultSet rs = db.executeQuery("SELECT  userdetails.`Value` FROM userdetails WHERE `UserID` = (SELECT `user`.`UserID` FROM `user` WHERE `user`.`UserName`='" + request.getParameter("txtUserName") + "') AND userdetails.`Detail` = 'Email'");
                         String password="";
                         try{
                         rs.next();
                         {
-                            if(request.getParameter("Email").equals(rs.getString(1)))
+                            if(request.getParameter("txtEmail").equals(rs.getString(1)))
                             {
                             
                                 //Generate random alphanumeric string
@@ -124,9 +124,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     }
                                 }
                                 Checksum checksum = new Checksum();
-                                db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum("password") + "' WHERE `UserName`='" + request.getParameter("UserName") + "'");
+                                db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum(password) + "' WHERE `UserName`='" + request.getParameter("txtUserName") + "'");
                                 SendMail sm = new SendMail();
-                                sm.sendMail(request.getParameter("Email"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
+                                sm.sendMail(request.getParameter("txtEmail"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
                                 out.println("We have generated a new password for you and sent it to the email id you specified. <br />");
                             }
                             
@@ -148,7 +148,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </p>
                             <%
                         }
-                        
+                        db.disconnect();
                         
                     }
                     //catch(Exception e)
@@ -164,7 +164,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     UserName
                                 </td>
                                 <td>
-                                    <input type="text" name="UserName" value="" />
+                                    <input type="text" name="txtUserName" value="" />
                                 </td>
                             </tr>
                             <tr>
@@ -172,7 +172,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Email
                                 </td>
                                 <td>
-                                    <input type="text" name="Email" value="" />
+                                    <input type="text" name="txtEmail" value="" />
                                 </td>
                             </tr>
                             <tr>
