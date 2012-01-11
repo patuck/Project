@@ -14,20 +14,25 @@
 <!DOCTYPE html>
 
 <%
-//Check if user is admin
+//Check if user is admin or moderator
 boolean isAdmin = false;
+boolean isModerator = false;
 try
 {
     if(Byte.parseByte((String) session.getAttribute("Type")) >= 9 )
     {
         isAdmin = true;
+        isModerator =true;
+    }
+    if(Byte.parseByte((String) session.getAttribute("Type")) >= 5 )
+    {
+        isModerator =true;
     }
 }
 catch(NumberFormatException e)
 {
     ;
 }
-
 %>
 
 <html>
@@ -178,8 +183,19 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 String itemID=result.getString(1);
                                 ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
                                 itemDetails.next();
+                                if(itemDetails.getString(2).equals("NoFile"))
+                                {
+                                    %>
+                                    <img src="Images/Items/NoImage.jpeg" />
+                                    <%
+                                }
+                                else
+                                {
                                 %>
                                 <img src="Images/Items/Item-<%=itemID %>/<%=itemDetails.getString(2) %>" />
+                                <%
+                                }
+                                %>
                             </div>
                             <div id="ItemDetails">
                                 <%
@@ -275,11 +291,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 		
             <!-- Right colum starts here -->
             <div id="right">
+                <%
+                if(isModerator)
+                {
+                %>
                 <a href="AddItem.jsp">
                     <img src="Images/Icons/add.png" width="15" height="15"/> Add Item
                 </a>
-                <br />
+                <br/>
                 <%
+                }
                 if(isAdmin)
                 {
                     %>

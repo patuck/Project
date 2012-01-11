@@ -50,6 +50,27 @@ private String getMonthOfYear(int m)
 %>
 <!DOCTYPE html>
 
+<%
+//Check if user is admin or moderator
+boolean isAdmin = false;
+boolean isModerator = false;
+try
+{
+    if(Byte.parseByte((String) session.getAttribute("Type")) >= 9 )
+    {
+        isAdmin = true;
+        isModerator =true;
+    }
+    else if(Byte.parseByte((String) session.getAttribute("Type")) >= 5 )
+    {
+        isModerator =true;
+    }
+}
+catch(NumberFormatException e)
+{
+    ;
+}
+%>
 <html>
     <head>
         <title>
@@ -131,7 +152,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- Left colum starts here -->
             <div id="left">
                 
-                
+              
                 <%
                 MySQL db = new MySQL();
                 db.connect();
@@ -157,11 +178,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <div id="HeaderLine">
                             <br/>
                             <br/> 
-                            <div id="EditLink" style="float: right;" >
-                                <a href="EditItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
-                                    <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Item
-                                </a>
-                            </div>
+                            <%
+                            if(isModerator)
+                            {
+                                %>
+                                <div id="EditLink" style="float: right;" >
+                                    <a href="EditItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
+                                        <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Item
+                                    </a>
+                                </div>
+                                <%
+                            }
+                            %>  
                             <div id="ItemName" style="font-size: 25px;font-weight: bold;color: #FF4800;">
                                 
                                 <%= result.getString(3) %>
@@ -181,11 +209,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 %>
                             </div>
                         </div>
-                            <div id="EditDetailsLink" style="float: right;" >
-                                <a href="EditItemDetails.jsp?ItemID=<%=request.getParameter("ItemID") %>">
+                            <%
+                            if(isModerator)
+                            {
+                                %>
+                                <div id="EditDetailsLink" style="float: right;" >
+                                    <a href="EditItemDetails.jsp?ItemID=<%=request.getParameter("ItemID") %>">
                                     <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Details
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                                <%
+                            }
+                            %>        
 		
                         <div id="BodyArea">
                             <div id="ItemImage">
@@ -195,8 +230,19 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 itemID=result.getString(1);
                                 ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "'");
                                 itemDetails.next();
+                                if(itemDetails.getString(2).equals("NoFile"))
+                                {
+                                    %>
+                                    <img src="Images/Items/NoImage.jpeg" />
+                                    <%
+                                }
+                                else
+                                {
                                 %>
                                 <img src="Images/Items/Item-<%=itemID %>/<%=itemDetails.getString(2) %>" />
+                                <%
+                                }
+                                %>
                             </div>
                             <div id="ItemDetails">
                                 <%
@@ -281,13 +327,26 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                      userDB.disconnect();
                                      %>
                                  </div>
-                                 <div id="date">
+                                 <div id="date" >
                                      <%
                                      String date = result.getDate(4).toString();
                                      out.println("on " + getMonthOfYear(Integer.parseInt(date.substring(5, 7))) + " " + date.substring(8, 10) + ", " + date.substring(0, 4));
                                      %>
+                                     <%
+                                     if(isModerator || (session.getAttribute("UserID")!=null? (session.getAttribute("UserID").equals(result.getString(3))) : false))//result.getString(3)
+                                     {
+                                         %>
                                          <a href="EditReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" width="15" height="15"  /> </a>
+                                         <%
+                                     }
+                                     if(isModerator)
+                                     {
+                                         %>
                                          <a href="RemoveReview.jsp?ItemID=<%=itemID %>&ReviewID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" width="15" height="15" /> </a>
+                                         <%
+                                         
+                                     }
+                                     %>
                                  </div>
                              </div>
                                  <div id="Content">
@@ -327,7 +386,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </a>
                     <%
                     
-                    result = db.executeQuery("SELECT `price`.`PriceID`, `price`.`Price`, `price`.`Shop`, `price`.`Link` FROM `price` WHERE `price`.`ItemID` = '" + itemID + "'");
+                    result = db.executeQuery("SELECT `price`.`PriceID`, `price`.`Price`, `price`.`Shop`, `price`.`Link`, `price`.`UserID` FROM `price` WHERE `price`.`ItemID` = '" + itemID + "'");
                     while(result.next())
                     {
                         %>
@@ -346,8 +405,20 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             <div class="Value">
                                 Rs. <%=result.getString(2) %>
                                 <div style="float: right;">
-                                    <a href="EditPrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" width="15" height="15" /> </a>
-                                    <a href="RemovePrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" width="15" height="15" /> </a>
+                                    <%
+                                    if(isModerator || (session.getAttribute("UserID")!=null? (session.getAttribute("UserID").equals(result.getString(5))) : false))//result.getString(3)
+                                    {
+                                        %>
+                                        <a href="EditPrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/pencil.png" width="15" height="15" /> </a>
+                                        <%
+                                    }
+                                    if(isModerator)
+                                    {
+                                        %>
+                                        <a href="RemovePrice.jsp?ItemID=<%=itemID %>&PriceID=<%=result.getString(1) %>"> <img src="Images/Icons/delete.png" width="15" height="15" /> </a>
+                                        <%
+                                    }
+                                    %>
                                 </div>
                             </div>
                         </div>
