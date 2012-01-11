@@ -83,7 +83,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             }
             function getType()
             {
-                postDataReturnText("Validation/GetUserType", "UserID="+document.forms['ManageUsers'].elements['UserID'].value, setType);
+                postDataReturnText("Validation/GetUserType", "UserID="+document.forms['ManageUsers'].elements['listUserID'].value, setType);
             }
             
         </script>
@@ -131,10 +131,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 <%
                 MySQL db=new MySQL();
                 db.connect();
-                if(isAdmin && request.getParameter("UserID")!=null)
+                if(isAdmin && request.getParameter("listUserID")!=null)
                 {
                     
-                    db.executeUpdate("UPDATE `catalog`.`user` SET `Type` = '" + request.getParameter("Type") + "' WHERE `UserID` = '" + request.getParameter("UserID") + "';");
+                    db.executeUpdate("UPDATE `catalog`.`user` SET `Type` = '" + request.getParameter("radioType") + "' WHERE `UserID` = '" + request.getParameter("listUserID") + "';");
                     out.print("The selected user status has been updated");
                 }                                  
                 else if(isAdmin)
@@ -147,7 +147,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <table align="center">
                             <tr>
                                 <td>
-                                    <select name="UserID" onkeyup="getType()" onchange="getType()">
+                                    <select name="listUserID" onkeyup="getType()" onchange="getType()">
                                         <%
                                         ResultSet rs = db.executeQuery("SELECT `UserID`, `UserName` FROM `user`");
                                         while(rs.next())
@@ -162,22 +162,22 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" id="Administrator" name="Type"  value="9" /> Administrator
+                                    <input type="radio" id="Administrator" name="radioType"  value="9" /> Administrator
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" id="Moderator" name="Type" value="5" /> Moderator
+                                    <input type="radio" id="Moderator" name="radioType" value="5" /> Moderator
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" id="User" name="Type" value="1" /> User
+                                    <input type="radio" id="User" name="radioType" value="1" /> User
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" id="Blocked" name="Type" value="0" /> Blocked
+                                    <input type="radio" id="Blocked" name="radioType" value="0" /> Blocked
                                 </td>
                             </tr>
                             <tr>
