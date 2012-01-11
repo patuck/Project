@@ -182,9 +182,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             if(isModerator)
                             {
                                 %>
-                                <div id="EditLink" style="float: right;" >
+                                <div id="Edit-RemoveLink" style="float: right;" >
                                     <a href="EditItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
-                                        <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Item
+                                        <img src="Images/Icons/pencil.png" width="15" height="15" />
+                                    </a>
+                                    <a href="RemoveItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
+                                        <img src="Images/Icons/pencil.png" width="15" height="15" />
                                     </a>
                                 </div>
                                 <%

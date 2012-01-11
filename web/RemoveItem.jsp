@@ -105,7 +105,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(request.getParameter("Remove") != null ? (request.getParameter("Remove").equals("true")? true : false) : false)
+                else if(request.getParameter("checkboxRemove") != null ? (request.getParameter("checkboxRemove").equals("true")? true : false) : false)
                 {
                     MySQL db = new MySQL();
                     db.connect();
@@ -113,7 +113,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     db.executeUpdate("DELETE FROM review WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
                     db.executeUpdate("DELETE FROM itemdetails WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
                     db.executeUpdate("DELETE FROM item WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
-                    out.println("<p align=\"center\">Price removed successfully. </p>");
+                    out.println("<p align=\"center\">Item removed successfully. </p>");
                     db.disconnect();
                 }
                 else if(request.getParameter("ItemID") != null)
@@ -164,11 +164,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    
+                                <td align="right">
+                                    <input type="checkbox" value="true" name="checkboxRemove" />
                                 </td>
-                                <td>
-                                    <input type="checkbox" value="true" name="Remove" />
+                                <td align="left">
                                     Confirm removal of Item and all details, reviews and prices listed under it. 
                                 </td>
                             </tr>
@@ -176,7 +175,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <td>
                                 </td>
                                 <td>
-                                    <input type="submit" value="Remove Price" />
+                                    <input type="submit" value="Remove Item" />
                                 </td>
                             </tr>
                         </table>

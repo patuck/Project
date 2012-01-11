@@ -79,7 +79,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
-                if(isEmpty('EditItem', 'Name'))
+                if(isEmpty('EditItem', 'txtName'))
                 {
                     document.getElementById('err').innerHTML = "Item name cannot be blank";
                     setErr();
@@ -110,7 +110,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("Name="+ document.forms['EditItem'].elements['Name'].value + "&Category=" + document.forms['EditItem'].elements['Category'].value); 
+                    XMLHttpRequestObject.send("Name="+ document.forms['EditItem'].elements['txtName'].value + "&Category=" + document.forms['EditItem'].elements['listCategory'].value); 
                 }
                 return err;
             }
@@ -164,11 +164,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 try
                 {
                     mrequest = new MultipartFormDataRequest(request);
-                    System.out.println("mreq");
                 }
                 catch(IOException e)
                 {
-                    System.out.println("no mreq");
                     mrequest=null;
                 }
                 if(!isModerator)
@@ -184,7 +182,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                {
                    MySQL db = new MySQL();
                    db.connect();
-                   db.executeUpdate("UPDATE `catalog`.item SET `ItemName` = '" + mrequest.getParameter("Name") + "', `CategoryID` = '" + mrequest.getParameter("Category") + "' WHERE `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
+                   db.executeUpdate("UPDATE `catalog`.item SET `ItemName` = '" + mrequest.getParameter("txtName") + "', `CategoryID` = '" + mrequest.getParameter("listCategory") + "' WHERE `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
                    
                    try
                                                      
@@ -198,15 +196,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
                            </jsp:useBean>
                            <%
-                           UploadFile file = (UploadFile) files.get("Image");
-                           out.print(file.getFileName());
+                           UploadFile file = (UploadFile) files.get("fileImage");
                            if (file.getFileName() != null)
                            {
                                // Uses the bean now to store specified by jsp:setProperty at the top.
                                //UPDATE `catalog`.itemdetails SET `Value` = 'image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';
                                db.executeUpdate("UPDATE `catalog`.itemdetails SET `Value` = '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "' WHERE `ItemDetailID` = 0 AND `ItemID` = '" + mrequest.getParameter("ItemID") + "';");
                                file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
-                               upBean.store(mrequest, "Image");
+                               upBean.store(mrequest, "fileImage");
                            }
                        }
                    }
@@ -234,7 +231,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Item Name
                                 </td>
                                 <td>
-                                    <input type="text" name="Name" value="<%=rs.getString(1) %>" onblur="return validateName();" />
+                                    <input type="text" name="txtName" value="<%=rs.getString(1) %>" onblur="return validateName();" />
                                 </td>
                             </tr>
                             <tr>
@@ -242,7 +239,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Category
                                 </td>
                                 <td>
-                                    <select name="Category" onchange="return validateName();">
+                                    <select name="listCategory" onchange="return validateName();">
                                         <%
                                         //Build tree of categories form database
                                         MySQL db = new MySQL();
@@ -285,7 +282,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     image:
                                 </td>
                                 <td>
-                                    <input type="file" name="Image" value="" />
+                                    <input type="file" name="fileImage" value="" />
                                 </td>
                             </tr>
                             <tr>
