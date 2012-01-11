@@ -66,12 +66,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validatePrice()
             {
                 document.getElementById('err-Price').innerHTML = "";
-                if(isEmpty('AddPrice', 'Price'))
+                if(isEmpty('AddPrice', 'txtPrice'))
                 {
                     document.getElementById('err-Price').innerHTML = "Price cannot be blank";
                     return false;
                 }
-                else if(!isOnlyDigits('AddPrice', 'Price'))
+                else if(!isOnlyDigits('AddPrice', 'txtPrice'))
                 {
                     document.getElementById('err-Price').innerHTML = "Price name must contain only digits";
                     return false;
@@ -81,7 +81,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateShop()
             {
                 document.getElementById('err-Shop').innerHTML = "";
-                if(isEmpty('AddPrice', 'Shop'))
+                if(isEmpty('AddPrice', 'txtShop'))
                 {
                     document.getElementById('err-Shop').innerHTML = "Shop cannot be blank";
                     return false;
@@ -143,7 +143,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(request.getParameter("Price") != null)
+                else if(request.getParameter("txtPrice") != null)
                 {
                     
                     MySQL db = new MySQL();
@@ -160,7 +160,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         priceID = 0;
                     }
                     priceID++;
-                    db.executeUpdate("INSERT INTO `catalog`.price (`ItemID`, `PriceID`, `Price`, `Shop`, `Link`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + priceID + "', '" + request.getParameter("Price") + "', '" + request.getParameter("Shop") + "', '" + request.getParameter("Link") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
+                    db.executeUpdate("INSERT INTO `catalog`.price (`ItemID`, `PriceID`, `Price`, `Shop`, `Link`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + priceID + "', '" + request.getParameter("txtPrice") + "', '" + request.getParameter("txtShop") + "', '" + request.getParameter("txtLink") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
                     out.println("<p align=\"center\">Price added successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
                     db.disconnect();
                 }
@@ -175,7 +175,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Price
                                 </td>
                                 <td>
-                                    <input type="text" name="Price" value="" onblur="return validatePrice();" />
+                                    <input type="text" name="txtPrice" value="" onblur="return validatePrice();" />
                                 </td>
                             </tr>
                             <tr>
@@ -188,7 +188,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Shop
                                 </td>
                                 <td>
-                                    <input type="text" name="Shop" value="" onblur="return validateShop();"/>
+                                    <input type="text" name="txtShop" value="" onblur="return validateShop();"/>
                                 </td>
                             </tr>
                             <tr>
@@ -201,7 +201,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Link
                                 </td>
                                 <td>
-                                    <input type="text" name="Link" value="" />
+                                    <input type="text" name="txtLink" value="" />
                                 </td>
                             </tr>
                             <tr>
