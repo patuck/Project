@@ -70,7 +70,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
-                if(isEmpty('AddItem', 'Name'))
+                if(isEmpty('AddItem', 'txtName'))
                 {
                     document.getElementById('err').innerHTML = "Item name cannot be blank";
                     setErr();
@@ -101,7 +101,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("Name="+ document.forms['AddItem'].elements['Name'].value + "&Category=" + document.forms['AddItem'].elements['Category'].value); 
+                    XMLHttpRequestObject.send("Name="+ document.forms['AddItem'].elements['txtName'].value + "&Category=" + document.forms['AddItem'].elements['listCategory'].value); 
                 }
                 return err;
             }
@@ -188,7 +188,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        itemID = 0;
                    }
                    itemID++;
-                   db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + mrequest.getParameter("Category") + "', '" + session.getAttribute("UserID") + "', '" + mrequest.getParameter("Name") + "', CURRENT_TIMESTAMP);");
+                   db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + mrequest.getParameter("listCategory") + "', '" + session.getAttribute("UserID") + "', '" + mrequest.getParameter("txtName") + "', CURRENT_TIMESTAMP);");
                    
                    
                    Hashtable files = mrequest.getFiles();
@@ -200,7 +200,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                            <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
                        </jsp:useBean>
                        <%
-                       UploadFile file = (UploadFile) files.get("Image");
+                       UploadFile file = (UploadFile) files.get("fileImage");
                        if (file.getFileName() != null)
                        {
                            // Uses the bean now to store specified by jsp:setProperty at the top.
@@ -208,7 +208,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                            {
                                db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + itemID + "', '" + 0 + "', '" + "image" + "', '" + "image-0" + file.getFileName().substring(file.getFileName().lastIndexOf("."))  + "');");
                                file.setFileName("image-" + 0 + file.getFileName().substring(file.getFileName().lastIndexOf(".")) );
-                               upBean.store(mrequest, "Image");
+                               upBean.store(mrequest, "fileImage");
                            }
                            catch(NullPointerException e)
                            {
@@ -237,7 +237,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Item Name
                                 </td>
                                 <td>
-                                    <input type="text" name="Name" value="" onblur="return validateName();"/>
+                                    <input type="text" name="txtName" value="" onblur="return validateName();"/>
                                 </td>
                             </tr>
                             <tr>
@@ -245,7 +245,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     Category
                                 </td>
                                 <td>
-                                    <select name="Category" onchange="return validateName();">
+                                    <select name="listCategory" onchange="return validateName();">
                                         <%
                                         //Build tree of categories form database
                                         MySQL db = new MySQL();
@@ -280,7 +280,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     image:
                                 </td>
                                 <td>
-                                    <input type="file" name="Image" value="" />
+                                    <input type="file" name="fileImage" value="" />
                                 </td>
                             </tr>
                             <tr>
