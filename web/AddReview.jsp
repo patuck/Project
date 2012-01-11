@@ -4,7 +4,7 @@
     Author     : Reshad
 --%>
 
-<% session.setAttribute("URL", request.getRequestURL()); %>
+<% session.setAttribute("URL", request.getRequestURL()+(request.getParameter("ItemID")!=null?"?ItemID="+request.getParameter("ItemID"):"") ); %>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

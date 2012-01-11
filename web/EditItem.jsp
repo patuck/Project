@@ -4,7 +4,7 @@
     Author     : Reshad
 --%>
 
-<% session.setAttribute("URL", request.getRequestURL()); %>
+<% session.setAttribute("URL", request.getRequestURL()+(request.getParameter("ItemID")!=null?"?ItemID="+request.getParameter("ItemID"):"") ); %>
 <%@page import="java.util.Hashtable"%>
 <%@page import="javazoom.upload.UploadFile"%>
 <%@page import="java.io.IOException"%>

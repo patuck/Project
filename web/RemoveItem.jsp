@@ -7,7 +7,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.catalog.model.Node"%>
 <%@page import="com.catalog.model.Tree"%>
-<% session.setAttribute("URL", request.getRequestURL()); %>
+<% session.setAttribute("URL", request.getRequestURL()+(request.getParameter("ItemID")!=null?"?ItemID="+request.getParameter("ItemID"):"") ); %>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.catalog.model.MySQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -164,6 +164,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 </td>
                             </tr>
                             <tr>
+                                <td>
+                                    
+                                </td>
                                 <td>
                                     <input type="checkbox" value="true" name="Remove" />
                                     Confirm removal of Item and all details, reviews and prices listed under it. 
