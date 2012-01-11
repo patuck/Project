@@ -54,7 +54,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateReview()
             {
                 document.getElementById('err').innerHTML = "";
-                if(isEmpty('AddReview', 'Review'))
+                if(isEmpty('AddReview', 'txtReview'))
                 {
                     document.getElementById('err').innerHTML = "Review cannot be blank";
                     return false;
@@ -116,7 +116,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     </p>
                     <%     
                 }
-                else if(request.getParameter("Review") != null)
+                else if(request.getParameter("txtReview") != null)
                 {
                     
                     MySQL db = new MySQL();
@@ -133,7 +133,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         reviewID = 0;
                     }
                     reviewID++;
-                    db.executeUpdate("INSERT INTO `catalog`.review (`ItemID`, `ReviewID`, `Review`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + reviewID + "', '" + request.getParameter("Review") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
+                    db.executeUpdate("INSERT INTO `catalog`.review (`ItemID`, `ReviewID`, `Review`, `UserID`, `TimeStamp`) VALUES ('" + request.getParameter("ItemID") + "', '" + reviewID + "', '" + request.getParameter("txtReview") + "', '" + session.getAttribute("UserID") + "', CURRENT_TIMESTAMP);");
                     out.println("<p align=\"center\">Review added successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
@@ -147,7 +147,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <td colspan="2" align="center">
                                     Review:
                                     <br />
-                                    <textarea name="Review" rows="10" cols="80" onblur="return validateReview()"></textarea>
+                                    <textarea name="txtReview" rows="10" cols="80" onblur="return validateReview()"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -159,7 +159,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <td>
                                 </td>
                                 <td align="center">
-                                    <input type="submit" value="Submit review" />
+                                    <input type="submit" value="Submit Review" />
                                 </td>
                             </tr>
                         </table>
