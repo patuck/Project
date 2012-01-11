@@ -82,7 +82,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 document.getElementById('err').innerHTML = "";
                 err=false;
-                if(isEmpty('EditCategory', 'Name'))
+                if(isEmpty('EditCategory', 'txtName'))
                 {
                     document.getElementById('err').innerHTML = "Category name cannot be blank";
                     setErr();
@@ -113,7 +113,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("Name="+ document.forms['EditCategory'].elements['Name'].value + "&ParentCategory=" + document.forms['EditCategory'].elements['ParentCategory'].value); 
+                    XMLHttpRequestObject.send("Name="+ document.forms['EditCategory'].elements['txtName'].value + "&ParentCategory=" + document.forms['EditCategory'].elements['listParentCategory'].value); 
                 }
                 return err;
             }
@@ -168,12 +168,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     {
                         out.println("You are not authorized to Edit a category.<br />Please contact an administrator if you feel a category is missing from this web site.<br />You will now be redirected back to our home page.");
                     }
-                   else if (request.getParameter("Name")!=null)
+                   else if (request.getParameter("txtName")!=null)
                    {
                        MySQL db = new MySQL();
                        db.connect();
                        
-                       db.executeUpdate("UPDATE `catalog`.category SET `CategoryName` = '" + request.getParameter("Name") + "', `ParentCategoryID` = '" + request.getParameter("ParentCategory") + "' WHERE `CategoryID` = '" + request.getParameter("CategoryID") + "';");
+                       db.executeUpdate("UPDATE `catalog`.category SET `CategoryName` = '" + request.getParameter("txtName") + "', `ParentCategoryID` = '" + request.getParameter("listParentCategory") + "' WHERE `CategoryID` = '" + request.getParameter("CategoryID") + "';");
                        
                        
                        //create tree structure from database to create new menu file
@@ -206,7 +206,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         Category Name:
                                     </td>
                                     <td>
-                                        <input type="text" name="Name" value="<%=rs.getString(1) %>"  onblur="return validateCategory();" />
+                                        <input type="text" name="txtName" value="<%=rs.getString(1) %>"  onblur="return validateCategory();" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -214,7 +214,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         Parent Category:
                                     </td>
                                     <td>
-                                        <select name="ParentCategory"  onchange="return validateCategory();">
+                                        <select name="listParentCategory"  onchange="return validateCategory();">
                                             <option value="0">
                                                 - -
                                             </option>
