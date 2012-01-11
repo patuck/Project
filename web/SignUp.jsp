@@ -89,17 +89,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateFirstName()
             {
                 document.getElementById('err-FirstName').innerHTML = "";
-                if(isEmpty('SignUpForm', 'FirstName'))
+                if(isEmpty('SignUpForm', 'txtFirstName'))
                 {
                     document.getElementById('err-FirstName').innerHTML = "First name cannot be blank";
                     return false;
                 }
-                else if(minLength(2,'SignUpForm', 'FirstName'))
+                else if(minLength(2,'SignUpForm', 'txtFirstName'))
                 {
                     document.getElementById('err-FirstName').innerHTML = "First name must be at least 2 characters long";
                     return false;
                 }
-                else if(!isOnlyChars('SignUpForm', 'FirstName'))
+                else if(!isOnlyChars('SignUpForm', 'txtFirstName'))
                 {
                     document.getElementById('err-FirstName').innerHTML = "First name must contain only characters";
                     return false;
@@ -109,17 +109,17 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateLastName()
             {
                 document.getElementById('err-LastName').innerHTML = "";
-                if(isEmpty('SignUpForm', 'LastName'))
+                if(isEmpty('SignUpForm', 'txtLastName'))
                 {
                     document.getElementById('err-LastName').innerHTML = "Last name cannot be blank";
                     return false;
                 }
-                else if(minLength(2,'SignUpForm', 'LastName'))
+                else if(minLength(2,'SignUpForm', 'txtLastName'))
                 {
                     document.getElementById('err-LastName').innerHTML = "Last name must be at least 2 characters long";
                     return false;
                 }
-                else if(!isOnlyChars('SignUpForm', 'LastName'))
+                else if(!isOnlyChars('SignUpForm', 'txtLastName'))
                 {
                     document.getElementById('err-LastName').innerHTML = "Last name must contain only characters";
                     return false;
@@ -130,19 +130,19 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             {
                 uname = true;
                 document.getElementById('err-UserName').innerHTML = "";
-                if(isEmpty('SignUpForm', 'UserName'))
+                if(isEmpty('SignUpForm', 'txtUserName'))
                 {
                     document.getElementById('err-UserName').innerHTML = "User name cannot be blank";
                     setUname();
                     return false;
                 }
-                else if(minLength(4,'SignUpForm', 'UserName'))
+                else if(minLength(4,'SignUpForm', 'txtUserName'))
                 {
                     document.getElementById('err-UserName').innerHTML = "User name must be at least 4 characters long";
                     setUname();
                     return false;
                 }
-                else if(!isValidUserName('SignUpForm', 'UserName'))
+                else if(!isValidUserName('SignUpForm', 'txtUserName'))
                 {
                     document.getElementById('err-UserName').innerHTML = "User name must contain only alphabets, digits, underscore  character (_) or dot (.)";
                     setUname();
@@ -176,7 +176,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             XMLHttpRequestObject = null;
                         }
                     }
-                    XMLHttpRequestObject.send("UserName="+document.forms['SignUpForm'].elements['UserName'].value); 
+                    XMLHttpRequestObject.send("UserName="+document.forms['SignUpForm'].elements['txtUserName'].value); 
                     return ret;
                 }
                 
@@ -184,18 +184,18 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validatePassword()
             {
                 document.getElementById('err-Password').innerHTML = "";
-                if(isEmpty('SignUpForm', 'Password'))
+                if(isEmpty('SignUpForm', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "Password cannot be blank";
                     setUname();
                     return false;
                 }
-                else if(minLength(6,'SignUpForm', 'Password'))
+                else if(minLength(6,'SignUpForm', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "Password must be at least 6 characters long";
                     return false;
                 }
-                else if(containsSpace('SignUpForm', 'Password'))
+                else if(containsSpace('SignUpForm', 'pwdPassword'))
                 {
                     document.getElementById('err-Password').innerHTML = "Password cannot contain a space";
                     setUname();
@@ -206,12 +206,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateReEnterPassword()
             {
                 document.getElementById('err-ReEnterPassword').innerHTML = "";
-                if(isEmpty('SignUpForm', 'ReEnterPassword'))
+                if(isEmpty('SignUpForm', 'pwdReEnterPassword'))
                 {
                     document.getElementById('err-ReEnterPassword').innerHTML = "Re-enter password cannot be blank";
                     return false;
                 }
-                if(!isEqualTo('SignUpForm', 'ReEnterPassword', 'Password'))
+                if(!isEqualTo('SignUpForm', 'pwdReEnterPassword', 'pwdPassword'))
                 {
                     document.getElementById('err-ReEnterPassword').innerHTML = "Re-enter password must match password";
                     return false;
@@ -221,12 +221,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             function validateEmail()
             {
                 document.getElementById('err-Email').innerHTML = "";
-                if(isEmpty('SignUpForm', 'Email'))
+                if(isEmpty('SignUpForm', 'txtEmail'))
                 {
                     document.getElementById('err-Email').innerHTML = "Email cannot be blank";
                     return false;
                 }
-                else if(!isEmail('SignUpForm', 'Email'))
+                else if(!isEmail('SignUpForm', 'txtEmail'))
                 {
                     document.getElementById('err-Email').innerHTML = "Not a valid email id";
                     return false;
@@ -283,7 +283,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     {
                         out.println("<p align=\"center\">You are already logged in Redirecting you to the home page</p>");
                     }
-                    else if(request.getParameter("UserName") != null ? (request.getParameter("UserName")!=""? true:false) : false)
+                    else if(request.getParameter("txtUserName") != null ? (request.getParameter("txtUserName")!=""? true:false) : false)
                     {
                         MySQL db= new MySQL();
                         Checksum checksum = new Checksum();
@@ -292,7 +292,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         rs = db.executeQuery("select max(UserID) from `user`;");
                         rs.next();
                         int userID = Integer.parseInt(rs.getString(1));
-                        db.executeUpdate("INSERT INTO `catalog`.`user` (`UserID`, `UserName`, `Password`, `Type`) VALUES ('" + ++userID + "', '" + request.getParameter("UserName") + "', '" + checksum.getSum(request.getParameter("Password")) + "', 1)");
+                        db.executeUpdate("INSERT INTO `catalog`.`user` (`UserID`, `UserName`, `Password`, `Type`) VALUES ('" + ++userID + "', '" + request.getParameter("txtUserName") + "', '" + checksum.getSum(request.getParameter("pwdPassword")) + "', 1)");
                         rs=db.executeQuery("SELECT MAX(UserDetailID) FROM userdetails WHERE UserID='" + userID + "'");
                         rs.next();
                         int userDetailID;
@@ -304,9 +304,9 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         {
                             userDetailID = 0;
                         }
-                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'First Name','" + request.getParameter("FirstName") + "')");
-                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Last Name','" + request.getParameter("LastName") + "')");
-                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Email','" + request.getParameter("Email") + "')");
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'First Name','" + request.getParameter("txtFirstName") + "')");
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Last Name','" + request.getParameter("txtLastName") + "')");
+                        db.executeUpdate("INSERT INTO `catalog`.userdetails (`UserID`, `UserDetailID`, `Detail`, `Value`) VALUES ('" + userID + "', '" + ++userDetailID +"', 'Email','" + request.getParameter("txtEmail") + "')");
                         
                         out.println("<p align=\"center\">You have signed up successfully,<br /> Please login above or continue surfing as an unregistered user</p>");
                         out.flush();
@@ -321,7 +321,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 First name:
                             </td>
                             <td>
-                                <input type="text" name="FirstName" onblur="return validateFirstName()"/>
+                                <input type="text" name="txtFirstName" onblur="return validateFirstName()"/>
                             </td>
                         </tr>
                         <tr>
@@ -333,7 +333,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Last name:
                             </td>
                             <td>
-                                <input type="text" name="LastName" onblur="return validateLastName()"/>
+                                <input type="text" name="txtLastName" onblur="return validateLastName()"/>
                             </td>
                         </tr>
                         <tr>
@@ -345,7 +345,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 User name:
                             </td>
                             <td>
-                                <input type="text" name="UserName" onblur="return validateUserName()"/>
+                                <input type="text" name="txtUserName" onblur="return validateUserName()"/>
                             </td>
                         </tr>
                         <tr>
@@ -357,7 +357,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Password:
                             </td>
                             <td>
-                                <input type="password" name="Password" onblur="return validatePassword()" />
+                                <input type="password" name="pwdPassword" onblur="return validatePassword()" />
                             </td>
                         </tr>
                         <tr>
@@ -369,7 +369,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Re-enter password:
                             </td>
                             <td>
-                                <input type="password" name="ReEnterPassword" onblur="return validateReEnterPassword()" />
+                                <input type="password" name="pwdReEnterPassword" onblur="return validateReEnterPassword()" />
                             </td>
                         </tr>
                         <tr>
@@ -381,7 +381,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Email id:
                             </td>
                             <td>
-                                <input type="text" name="Email" onblur="return validateEmail()"/>
+                                <input type="text" name="txtEmail" onblur="return validateEmail()"/>
                             </td>
                         </tr>
                         <tr>
