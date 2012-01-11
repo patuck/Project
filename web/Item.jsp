@@ -187,7 +187,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                         <img src="Images/Icons/pencil.png" width="15" height="15" />
                                     </a>
                                     <a href="RemoveItem.jsp?ItemID=<%=request.getParameter("ItemID") %>">
-                                        <img src="Images/Icons/pencil.png" width="15" height="15" />
+                                        <img src="Images/Icons/delete.png" width="15" height="15" />
                                     </a>
                                 </div>
                                 <%
