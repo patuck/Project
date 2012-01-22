@@ -127,7 +127,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum(password) + "' WHERE `UserName`='" + request.getParameter("txtUserName") + "'");
                                 SendMail sm = new SendMail();
                                 sm.sendMail(request.getParameter("txtEmail"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
-                                out.println("We have generated a new password for you and sent it to the email id you specified. <br />");
+                                out.println("<p align=\"center\">We have generated a new password for you and sent it to the email id you specified. <br /></p>");
                             }
                             
                             //SQL command for getting email id
@@ -177,7 +177,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><input type="submit" value="Change Password" /></td>
+                                <td><input type="submit" value="Retrieve Password" /></td>
                             </tr>
                         </tbody>
                     </table>
