@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -40,6 +38,21 @@ public class Tree
     public void addNode(Node n)
     {
         nodeList.add(n);
+    }
+    public void removeNode(Node n)
+    {
+        nodeList.remove(n);
+    }
+    public void removeNode(String nodeID)
+    {
+        for(int i=0;i<nodeList.size(); i++)
+        {
+            if(nodeID.equals(nodeList.get(i).getNodeID()))
+            {
+                removeNode(nodeList.get(i));
+                return;
+            }
+        }
     }
     public ArrayList<Node> getParentNodes(String nodeID)
     {
@@ -126,8 +139,5 @@ public class Tree
             }
         }
         return children;
-    }
-    
-    
-    
+    }    
 }
