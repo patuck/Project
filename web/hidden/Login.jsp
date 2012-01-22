@@ -42,7 +42,11 @@
             catch(SQLException e)
             {
             }
-            if(userID!=null)
+            if(result.getString("Type") != null ? (result.getString("Type").equals("0")) : false)
+            {
+                out.println("<p align=\"center\"><h1 align=\"center\">You have been blocked by an administrator</h1> <br /><h3 align=\"center\">If you wish to be un-blocked please contact an administartor and ask him to do the same. <br />You can continue using the site as an unregistered user till the block on your account is lifted. <br /> <a href=\"" + session.getAttribute("URL").toString() + "\">Click here</a> to go back to the page you were on. </h3></p>");
+            }
+            else if(userID!=null)
             {
                 out.println("You have Logged in successfully");   
                 response.sendRedirect(session.getAttribute("URL").toString());
@@ -75,6 +79,8 @@
         {
             out.println("Logged in as: <b>"+ session.getAttribute("UserName") + "</b><br />");
             out.println("<a href=\"hidden/Login.jsp?Logout=true\">Log Out</a>");
+            out.println("&nbsp;");
+            out.println("<a href=\"ChangePassword.jsp\"> Change Password </a>");
         }
         else
         {
