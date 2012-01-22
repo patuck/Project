@@ -198,6 +198,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        <%String path = getServletContext().getRealPath("Images/Items/Item-") + itemID;  %>
                        <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
                            <jsp:setProperty name="upBean" property="folderstore" value="<%=path %>" />
+                           <jsp:setProperty name="upBean" property="overwrite" value="true" />
                        </jsp:useBean>
                        <%
                        UploadFile file = (UploadFile) files.get("fileImage");
