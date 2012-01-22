@@ -312,6 +312,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <img src="Images/Icons/pencil.png" width="15" height="15" />Edit Category
                     </a>
                     <br />
+                    <a href="RemoveCategory.jsp?CategoryID=<%=request.getParameter("Category") %>">
+                        <img src="Images/Icons/delete.png" width="15" height="15" />Remove Category
+                    </a>
+                    <br />
                     <%
                 }
                 %>
