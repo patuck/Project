@@ -11,6 +11,23 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript">
+            function focused(component)
+            {
+                if(component.value == component.name)
+                {
+                    component.value="";
+                }
+            }
+            function blured(component)
+            {
+                if(component.value.length == 0)
+                {
+                    component.value = component.name;
+                }
+            }
+        </script>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
@@ -90,10 +107,10 @@
                 <table>
                     <tr>
                         <td>
-                            <input name="UserName" type="text" value="UserName" style="width:100px;" />
+                            <input name="UserName" type="text" value="UserName" style="width:100px;" onfocus="focused(this)" onblur="blured(this)" />
                         </td>
                         <td>
-                            <input type="Password" name ="Password" value="Password" style="width:100px;" />
+                            <input type="Password" name ="Password" value="Password" style="width:100px;" onfocus="focused(this)" onblur="blured(this)" />
                         </td>
                         <td>
                             <input type="submit" value="Login"/>
