@@ -58,7 +58,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
         <script type="text/javascript">
             function addNewDetail(tableID)
             {
-                var table = document.getElementById(tableID);
+                var table = document.getElementById(tableID);//
                 var rowCount = table.rows.length;
                 var row = table.insertRow(rowCount-1);
                 var cell1 = row.insertCell(0);            
@@ -72,6 +72,53 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 element2.type = "text";
                 element2.name = "value-" + (rowCount-1)
                 cell2.appendChild(element2);
+                
+                var cell3 = row.insertCell(2);
+                var element3 = document.createElement("img");
+                element3.src="Images/Icons/delete.png";
+                element3.width=15;
+                element3.name = 'remove-' + (rowCount-1);
+                element3.addEventListener("click", function(){removeDetail(this)}, false);//call remove function
+                
+                var element4 = document.createElement("input");
+                element4.type = "hidden";
+                element4.name = "deleted-" + (rowCount-1);
+                element4.value = "false";
+                
+                cell3.appendChild(element3);
+                cell3.appendChild(element4);
+                
+            }
+            
+            function removeDetail(obj)
+            {
+                var no=obj.name.substring(obj.name.indexOf("-"));
+                document.getElementsByName("deleted"+no)[0].value= "true";
+                document.getElementsByName("detail"+no)[0].style.display = "none";
+                document.getElementsByName("detail"+no)[0].value = "none";
+                document.getElementsByName("value"+no)[0].style.display = "none";
+                document.getElementsByName("value"+no)[0].value = "none";
+                document.getElementsByName("remove"+no)[0].style.display = "none";
+            }
+            
+            function validate()
+            {
+                for(i=1;i<document.getElementById('Table').rows.length-1;i++)
+                {
+                    //alert("in for loop")
+                    var name = 'detail-'+i;
+                    if (document.getElementsByName(name)[0].value =="")
+                    {
+                        alert("detail cannot be left empty")
+                        return false;
+                    }
+                    if(document.getElementsByName("value-"+i)[0].value =="")
+                    {
+                        alert("value cannot be left empty empty")
+                        return false;
+                    }
+                        
+                }
             }
         </script>
         <!-- Script Declaration Ends Here -->
@@ -147,7 +194,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     for (int i=1; request.getParameter("detail-" + i) != null ;i++)
                     {
-                        if(request.getParameter("value-" + i) != null)
+                        if(request.getParameter("value-" + i) != null && request.getParameter("deleted-" + i).equals("false"))
                         {
                             db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + request.getParameter("ItemID") + "', '" + ++itemDetailID + "', '" + request.getParameter("detail-" + i) + "', '" + request.getParameter("value-" + i) + "');");
                         }
@@ -160,8 +207,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     %>
                     
-                    
-                    <form method="post" action="AddItemDetail.jsp">
+                    <form method="post" id="AddItemDetail" action="AddItemDetail.jsp" onsubmit="return validate();">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="DataEntered" value="true" />
                         <table align="center" id="Table">
