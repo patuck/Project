@@ -178,10 +178,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        db.connect();
                        ResultSet result = db.executeQuery("SELECT MAX(`category`.`CategoryID`) FROM `category`");
                        result.next();
-                       int categoryID;
+                       long categoryID;
                        try
                        {
-                           categoryID = Integer.parseInt(result.getString(1));
+                           categoryID = Long.parseLong(result.getString(1));
                        }
                        catch(NumberFormatException e)
                        {

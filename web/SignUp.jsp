@@ -291,14 +291,14 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         ResultSet rs;
                         rs = db.executeQuery("select max(UserID) from `user`;");
                         rs.next();
-                        int userID = Integer.parseInt(rs.getString(1));
+                        long userID = Long.parseLong(rs.getString(1));
                         db.executeUpdate("INSERT INTO `catalog`.`user` (`UserID`, `UserName`, `Password`, `Type`) VALUES ('" + ++userID + "', '" + request.getParameter("txtUserName") + "', '" + checksum.getSum(request.getParameter("pwdPassword")) + "', 1)");
                         rs=db.executeQuery("SELECT MAX(UserDetailID) FROM userdetails WHERE UserID='" + userID + "'");
                         rs.next();
-                        int userDetailID;
+                        short userDetailID;
                         try
                         {
-                            userDetailID = Integer.parseInt(rs.getString(1));
+                            userDetailID = Short.parseShort(rs.getString(1));
                         }
                         catch(NumberFormatException e)
                         {

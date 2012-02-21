@@ -4,6 +4,7 @@
     Author     : Reshad
 --%>
 
+<%@page import="java.math.BigInteger"%>
 <% session.setAttribute("URL", request.getRequestURL()); %>
 <%@page import="javazoom.upload.UploadFile"%>
 <%@page import="java.util.Hashtable"%>
@@ -178,16 +179,16 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                    db.connect();
                    ResultSet result = db.executeQuery("SELECT MAX(`Item`.`ItemID`) FROM `Item`");
                    result.next();
-                   long itemID;
+                   BigInteger itemID;
                    try
                    {
-                       itemID = Long.parseLong(result.getString(1));
+                       itemID = new BigInteger(result.getString(1));
                    }
                    catch(NumberFormatException e)
                    {
-                       itemID = 0;
+                       itemID = new BigInteger("0");
                    }
-                   itemID++;
+                   itemID = itemID.add(new BigInteger("1")); //itemID++;
                    db.executeUpdate("INSERT INTO `catalog`.item (`ItemID`, `CategoryID`, `UserID`, `ItemName`, `TimeStamp`) VALUES ('" + itemID + "', '" + mrequest.getParameter("listCategory") + "', '" + session.getAttribute("UserID") + "', '" + mrequest.getParameter("txtName") + "', CURRENT_TIMESTAMP);");
                    
                    
