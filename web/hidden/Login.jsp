@@ -50,15 +50,13 @@
             Checksum checksum=new Checksum();
             password= checksum.getSum(password);
             ResultSet result=db.executeQuery("Select `UserID`, `Type` from user where UserName='" + userName + "' AND Password='" +  password + "';");
-            result.next();
-            String userID=null;
+            
             try
             {
+                result.next();
+            String userID=null;
                 userID= result.getString("UserID");
-            }
-            catch(SQLException e)
-            {
-            }
+            
             if(result.getString("Type") != null ? (result.getString("Type").equals("0")) : false)
             {
                 out.println("<p align=\"center\"><h1 align=\"center\">You have been blocked by an administrator</h1> <br /><h3 align=\"center\">If you wish to be un-blocked please contact an administartor and ask him to do the same. <br />You can continue using the site as an unregistered user till the block on your account is lifted. <br /> <a href=\"" + session.getAttribute("URL").toString() + "\">Click here</a> to go back to the page you were on. </h3></p>");
@@ -74,7 +72,8 @@
                 session.setAttribute("Type", result.getString("Type"));
                 session.setAttribute("Loggedin","true");
             }
-            else
+                }
+            catch(SQLException e)
             {
                 %>
                 <h2>Logout Failed</h2>
