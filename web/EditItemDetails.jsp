@@ -62,6 +62,73 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
 })
         </script>
         
+        <script type="text/javascript">
+            function addNewDetail(tableID)
+            {
+                var table = document.getElementById(tableID);//
+                var rowCount = table.rows.length;
+                var row = table.insertRow(rowCount-1);
+                var cell1 = row.insertCell(0);            
+                var element1 = document.createElement("input");
+                element1.type = "text";
+                element1.name = "detail-" + (rowCount-1)
+                cell1.appendChild(element1);
+                
+                var cell2 = row.insertCell(1);            
+                var element2 = document.createElement("input");
+                element2.type = "text";
+                element2.name = "value-" + (rowCount-1)
+                cell2.appendChild(element2);
+                
+                var cell3 = row.insertCell(2);
+                var element3 = document.createElement("img");
+                element3.src="Images/Icons/delete.png";
+                element3.width=15;
+                element3.name = 'remove-' + (rowCount-1);
+                element3.addEventListener("click", function(){removeDetail(this)}, false);//call remove function
+                
+                var element4 = document.createElement("input");
+                element4.type = "hidden";
+                element4.name = "deleted-" + (rowCount-1);
+                element4.value = "false";
+                
+                cell3.appendChild(element3);
+                cell3.appendChild(element4);
+                
+            }
+            
+            function removeDetail(obj)
+            {
+                var no=obj.name.substring(obj.name.indexOf("-"));
+                document.getElementsByName("deleted"+no)[0].value= "true";
+                document.getElementsByName("detail"+no)[0].style.display = "none";
+                document.getElementsByName("detail"+no)[0].value = "none";
+                document.getElementsByName("value"+no)[0].style.display = "none";
+                document.getElementsByName("value"+no)[0].value = "none";
+                document.getElementsByName("remove"+no)[0].style.display = "none";
+            }
+            
+            function validate()
+            {
+                for(i=1;i<document.getElementById('Table').rows.length-1;i++)
+                {
+                    //alert("in for loop")
+                    var name = 'detail-'+i;
+                    if (document.getElementsByName(name)[0].value =="")
+                    {
+                        alert("detail cannot be left empty")
+                        return false;
+                    }
+                    if(document.getElementsByName("value-"+i)[0].value =="")
+                    {
+                        alert("value cannot be left empty empty")
+                        return false;
+                    }
+                        
+                }
+            }
+        </script>
+        
         <!-- Script Declaration Ends Here -->
 
 
@@ -104,7 +171,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
             <!-- center colum starts here -->
             <div id="center">
                 <h1>
-                    Add Item Details
+                    Edit Item Details
                 </h1>
                 <%
                 if(!isModerator)
@@ -118,27 +185,39 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else if(request.getParameter("DataEntered") != null ? (request.getParameter("DataEntered").equals("true")? true : false) : false)
                 {
-                    
                     MySQL db = new MySQL();
                     db.connect();
-                    for (int i=0; request.getParameter("detail-" + i) != null ;i++)
+                    db.executeUpdate("DELETE FROM `catalog`.itemdetails WHERE `ItemDetailID` > '0' AND `ItemID` = '" + request.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetails`.`ItemDetailID`) FROM `ItemDetails` WHERE `ItemDetails`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                    result.next();
+                    long itemDetailID;
+                    try
                     {
-                        if(request.getParameter("value-" + i) != null)
+                        itemDetailID = Long.parseLong(result.getString(1));
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        itemDetailID = 0;
+                    }
+                    
+                    for (int i=1; request.getParameter("detail-" + i) != null ;i++)
+                    {
+                        if(request.getParameter("value-" + i) != null && request.getParameter("deleted-" + i).equals("false"))
                         {
-                            db.executeUpdate("UPDATE `catalog`.itemdetails SET `Detail` = '" + request.getParameter("detail-" + i) + "', `Value` = '" + request.getParameter("value-" + i) + "' WHERE `ItemDetailID` = '" + request.getParameter("id-" + i) + "' AND `ItemID` = '" + request.getParameter("ItemID") + "';");
+                            db.executeUpdate("INSERT INTO `catalog`.itemdetails (`ItemID`, `ItemDetailID`, `Detail`, `Value`) VALUES ('" + request.getParameter("ItemID") + "', '" + ++itemDetailID + "', '" + request.getParameter("detail-" + i) + "', '" + request.getParameter("value-" + i) + "');");
                         }
                         
                     }
-                    out.println("<p align=\"center\">Details modified successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
-                    
+                    out.println("<p align=\"center\">Details added to item successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p>");
                     db.disconnect();
+                            
                 }
                 else if(request.getParameter("ItemID") != null)
                 {
                     %>
                     
                     
-                    <form method="post" action="EditItemDetails.jsp">
+                    <form method="post" id="EditItemDetails" action="EditItemDetails.jsp" onsubmit="return validate();">
                         <input type="hidden" name="ItemID" value="<%=request.getParameter("ItemID") %>" />
                         <input type="hidden" name="DataEntered" value="true" />
                         <table align="center" id="Table">
@@ -154,17 +233,21 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             MySQL db= new MySQL();
                             db.connect();
                             ResultSet rs = db.executeQuery("SELECT `ItemDetailID`, `Detail`, `Value` FROM itemdetails where `ItemID`='" + request.getParameter("ItemID") + "';");
-                            for(int i=0;rs.next();i++)
+                            rs.next();
+                            for(int i=1;rs.next();i++)
                             {
                                 %>
                                 
                                 <tr>
                                     <td>
-                                        <input type="hidden" name="id-<%=i %>" value="<%=rs.getString(1) %>" />
                                         <input type="text" name="detail-<%=i %>" value="<%=rs.getString(2) %>" />
                                     </td>
                                     <td>
                                         <input type="text" name="value-<%=i %>" value="<%=rs.getString(3) %>" />
+                                    </td>
+                                    <td>
+                                        <img width="15" src="Images/Icons/delete.png" name="remove-<%=i %>" onclick="removeDetail(this);" />
+                                        <input type="hidden" name="deleted-<%=i %>" value="false" />
                                     </td>
                                 </tr>
                                 <%
@@ -173,6 +256,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             %>
                             <tr>
                                 <td>
+                                    <input type="button" value="New Detail" onClick="addNewDetail('Table')"/>
                                 </td>
                                 <td>
                                     <input type="submit" value="Submit Details" />
