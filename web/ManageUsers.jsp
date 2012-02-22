@@ -135,7 +135,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     
                     db.executeUpdate("UPDATE `catalog`.`user` SET `Type` = '" + request.getParameter("radioType") + "' WHERE `UserID` = '" + request.getParameter("listUserID") + "';");
-                    out.print("The selected user status has been updated");
+                    out.print("<p align=\"center\"><b>The selected user status has been updated</b></p>");
                 }                                  
                 else if(isAdmin)
                 {
