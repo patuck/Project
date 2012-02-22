@@ -130,6 +130,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 while(result.next())
                 {
                     tree.addNode(new Node(result.getString(1), result.getString(2), result.getString(3)));
+                    
+                    if(result.getString(1).equals(request.getParameter("Category")))
+                    {
+                        out.println("<h1>" + result.getString(3) + "</h1>");
+                    }
+                        
                 }
                 
                 
@@ -141,7 +147,8 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     pageNo=0;
                 }
-                out.println("<h1>" + tree.getList().get(Integer.parseInt(request.getParameter("Category"))).getData() + "</h1>");
+                
+                
                 ArrayList<Node> children = tree.getChildren(request.getParameter("Category"));
                 String whereClauze="";
                 for(int i=0;i<children.size();i++)
