@@ -188,7 +188,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     MySQL db = new MySQL();
                     db.connect();
                     db.executeUpdate("DELETE FROM `catalog`.itemdetails WHERE `ItemDetailID` > '0' AND `ItemID` = '" + request.getParameter("ItemID") + "';");
-                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetails`.`ItemDetailID`) FROM `ItemDetails` WHERE `ItemDetails`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetailID`) FROM `itemdetails` WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
                     result.next();
                     long itemDetailID;
                     try

@@ -180,7 +180,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    ResultSet result = db.executeQuery("SELECT MAX(`ItemDetails`.`ItemDetailID`) FROM `ItemDetails` WHERE `ItemDetails`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`itemdetails`.`ItemDetailID`) FROM `itemdetails` WHERE `itemdetails`.`ItemID`='" + request.getParameter("ItemID") + "';");
                     result.next();
                     long itemDetailID;
                     try

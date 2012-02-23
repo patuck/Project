@@ -160,7 +160,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 //Build Tree object for categories
                 Tree tree = new Tree();
                                 
-                ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                ResultSet result = db.executeQuery("SELECT `CategoryID`,`ParentCategoryID`,`CategoryName` FROM `category`;");
                 //skip root as it already is part of Tree class
                 result.next();
                 while(result.next())
@@ -169,7 +169,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 
                 
-                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `item` WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
                 result.next();
                 {
                     %>
@@ -231,7 +231,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
                                 itemID=result.getString(1);
-                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "'");
+                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `itemdetails` WHERE `ItemID` = '" + result.getString(1) + "'");
                                 itemDetails.next();
                                 if(itemDetails.getString(2).equals("NoFile"))
                                 {

@@ -179,7 +179,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                        //create tree structure from database to create new menu file
                        
                        Tree tree = new Tree();
-                       ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                       ResultSet result = db.executeQuery("SELECT `CategoryID`,`ParentCategoryID`,`CategoryName` FROM `category`;");
                        //skip root as it already is part of Tree class
                        result.next();
                        while(result.next())
@@ -224,7 +224,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                             MySQL db = new MySQL();
                                             db.connect();
                                             Tree tree = new Tree();
-                                            ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                                            ResultSet result = db.executeQuery("SELECT `CategoryID`,`ParentCategoryID`,`CategoryName` FROM `category`;");
                                             //skip root as it already is part of Tree class
                                             result.next();
                                             while(result.next())

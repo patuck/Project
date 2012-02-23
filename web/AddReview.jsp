@@ -121,7 +121,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    ResultSet result = db.executeQuery("SELECT MAX(`Review`.`ReviewID`) FROM `Review` WHERE `Review`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`review`.`ReviewID`) FROM `review` WHERE `review`.`ItemID`='" + request.getParameter("ItemID") + "';");
                     result.next();
                     short reviewID;
                     try

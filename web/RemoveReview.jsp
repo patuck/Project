@@ -119,7 +119,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <%
                         MySQL db = new MySQL();
                         db.connect();
-                        ResultSet result = db.executeQuery("SELECT `Review`.`Review` FROM `catalog`.`Review` WHERE `Review`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Review`.`ReviewID` = '" + request.getParameter("ReviewID") + "';");
+                        ResultSet result = db.executeQuery("SELECT `Review` FROM `catalog`.`review` WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `ReviewID` = '" + request.getParameter("ReviewID") + "';");
                         result.next();
                         %>
                         <table align="center">

@@ -148,7 +148,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    db.executeUpdate("UPDATE `catalog`.`Price` SET `Price`.`Price` = '" + request.getParameter("txtPrice") + "', `Price`.`Shop` = '" + request.getParameter("txtShop") + "', `Price`.`Link` = '" + request.getParameter("txtLink") + "' WHERE `Price`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Price`.`PriceID` = '" + request.getParameter("PriceID") + "';");
+                    db.executeUpdate("UPDATE `catalog`.`price` SET `Price` = '" + request.getParameter("txtPrice") + "', `Shop` = '" + request.getParameter("txtShop") + "', `Link` = '" + request.getParameter("txtLink") + "' WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `PriceID` = '" + request.getParameter("PriceID") + "';");
                     out.println("<p align=\"center\">Price edited successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
@@ -161,7 +161,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <%
                         MySQL db = new MySQL();
                         db.connect();
-                        ResultSet result = db.executeQuery("SELECT `Price`.`Price`, `Price`.`Shop`, `Price`.`Link` FROM `price` WHERE `Price`.`ItemID`='" + request.getParameter("ItemID") + "' AND `Price`.`PriceID`='" + request.getParameter("PriceID") + "'");
+                        ResultSet result = db.executeQuery("SELECT `Price`, `Shop`, `Link` FROM `price` WHERE `ItemID`='" + request.getParameter("ItemID") + "' AND `PriceID`='" + request.getParameter("PriceID") + "'");
                         result.next();
                         %>
                         <table align="center">

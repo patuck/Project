@@ -148,7 +148,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                     
                     MySQL db = new MySQL();
                     db.connect();
-                    ResultSet result = db.executeQuery("SELECT MAX(`Price`.`PriceID`) FROM `Price` WHERE `price`.`ItemID`='" + request.getParameter("ItemID") + "';");
+                    ResultSet result = db.executeQuery("SELECT MAX(`PriceID`) FROM `price` WHERE `price`.`ItemID`='" + request.getParameter("ItemID") + "';");
                     result.next();
                     short priceID;
                     try

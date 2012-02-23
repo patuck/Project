@@ -120,7 +120,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     MySQL db = new MySQL();
                     db.connect();
-                    db.executeUpdate("UPDATE `catalog`.`Review` SET `Review` = '" + request.getParameter("txtReview") + "' WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `ReviewID` = '" + request.getParameter("ReviewID") + "';");
+                    db.executeUpdate("UPDATE `catalog`.`review` SET `Review` = '" + request.getParameter("txtReview") + "' WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `ReviewID` = '" + request.getParameter("ReviewID") + "';");
                     out.println("<p align=\"center\">Review edited successfully. <br /> Go back to <a href=\"Item.jsp?ItemID=" + request.getParameter("ItemID") + "\">Item Page</a>.</p></p>");
                     db.disconnect();
                 }
@@ -133,7 +133,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <%
                         MySQL db = new MySQL();
                         db.connect();
-                        ResultSet result = db.executeQuery("SELECT `Review`.`Review` FROM `catalog`.`Review` WHERE `Review`.`ItemID` = '" + request.getParameter("ItemID") + "' AND `Review`.`ReviewID` = '" + request.getParameter("ReviewID") + "';");
+                        ResultSet result = db.executeQuery("SELECT `Review` FROM `catalog`.`review` WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `ReviewID` = '" + request.getParameter("ReviewID") + "';");
                         result.next();
                         %>
                         <table align="center">

@@ -106,7 +106,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 {
                     MySQL db = new MySQL();
                     db.connect();
-                    db.executeUpdate("DELETE FROM `catalog`.`Price` WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `PriceID` = '" + request.getParameter("PriceID") + "';");
+                    db.executeUpdate("DELETE FROM `catalog`.`price` WHERE `ItemID` = '" + request.getParameter("ItemID") + "' AND `PriceID` = '" + request.getParameter("PriceID") + "';");
                     out.println("<p align=\"center\">Price removed successfully. </p>");
                     db.disconnect();
                 }
@@ -119,7 +119,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         <%
                         MySQL db = new MySQL();
                         db.connect();
-                        ResultSet result = db.executeQuery("SELECT `Price`.`Price`, `Price`.`Shop`, `Price`.`Link` FROM `price` WHERE `Price`.`ItemID`='" + request.getParameter("ItemID") + "' AND `Price`.`PriceID`='" + request.getParameter("PriceID") + "'");
+                        ResultSet result = db.executeQuery("SELECT `Price`, `Shop`, `Link` FROM `price` WHERE `ItemID`='" + request.getParameter("ItemID") + "' AND `Price`.`PriceID`='" + request.getParameter("PriceID") + "'");
                         result.next();
                         %>
                         <table align="center">

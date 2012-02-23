@@ -124,7 +124,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 //Build Tree object for categories
                 Tree tree = new Tree();
                                 
-                ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                ResultSet result = db.executeQuery("SELECT `CategoryID`,`ParentCategoryID`,`CategoryName` FROM `category`;");
                 //skip root as it already is part of Tree class
                 result.next();
                 while(result.next())
@@ -153,10 +153,10 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 String whereClauze="";
                 for(int i=0;i<children.size();i++)
                 {
-                    whereClauze += " OR `Item`.`CategoryID` = '" + children.get(i).getNodeID() + "' "; 
+                    whereClauze += " OR `item`.`CategoryID` = '" + children.get(i).getNodeID() + "' "; 
                 }
                 //System.out.println("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
-                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
+                result = db.executeQuery("SELECT `ItemID`, `CategoryID`, `ItemName` FROM `item` WHERE `CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ORDER BY `TimeStamp` DESC LIMIT " + (pageNo*5) + ", " + 5 + ";");
                 while(result.next())
                 {
                     %>
@@ -188,7 +188,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
                                 String itemID=result.getString(1);
-                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `ItemDetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
+                                ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `itemdetails` WHERE `ItemID` = '" + result.getString(1) + "' LIMIT 7");
                                 itemDetails.next();
                                 if(itemDetails.getString(2).equals("NoFile"))
                                 {
@@ -274,7 +274,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                             </td>
                             <td>
                                 <%
-                                result= db.executeQuery("SELECT COUNT(`TimeStamp`) FROM `Catalog`.`Item` WHERE `Item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ;");
+                                result= db.executeQuery("SELECT COUNT(`TimeStamp`) FROM `catalog`.`item` WHERE `item`.`CategoryID` = '" + request.getParameter("Category") +"' "+ whereClauze + " ;");
                                 result.next();
                                 %>
                                 <a href="Categories.jsp?Category=<%=request.getParameter("Category") %>&Page=<%= Long.parseLong(result.getString(1))<=((pageNo+1)*5)  ? pageNo :(pageNo+1) %>">

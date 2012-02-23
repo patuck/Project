@@ -126,7 +126,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                         db.connect();
                         //Build Tree object for categories
                         Tree tree = new Tree();
-                        ResultSet result = db.executeQuery("SELECT `Category`.`CategoryID`,`Category`.`ParentCategoryID`,`Category`.`CategoryName` FROM `Category`;");
+                        ResultSet result = db.executeQuery("SELECT `category`.`CategoryID`,`category`.`ParentCategoryID`,`category`.`CategoryName` FROM `category`;");
                         //skip root as it already is part of Tree class
                         result.next();
                         while(result.next())
