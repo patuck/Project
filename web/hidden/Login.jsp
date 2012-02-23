@@ -76,7 +76,7 @@
             catch(SQLException e)
             {
                 %>
-                <h2>Logout Failed</h2>
+                <h2>Login Failed</h2>
                 <a href="<%=session.getAttribute("URL") %>">Click Here</a> to go back to the page you came from and try again
                 <%
             }
