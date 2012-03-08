@@ -75,8 +75,8 @@ Definition for left and right column, total width is 800px even though left and 
 	float:right;
 	width: 210px;
 	padding:10px;
-        border-left: 1px solid #bbbbbb;
 	/*
+	border-left: 1px solid #bbbbbb;
         background:#99c;
 	*/
 }
