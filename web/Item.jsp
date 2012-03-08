@@ -70,11 +70,15 @@ catch(NumberFormatException e)
 {
     ;
 }
+MySQL db = new MySQL();
+db.connect();
+ResultSet rs = db.executeQuery("SELECT `ItemName` FROM `item` WHERE `ItemID`='" + request.getParameter("ItemID") + "';");
+rs.next();
 %>
 <html>
     <head>
         <title>
-            TechE
+            <%=rs.getString(1) %> - TechE
         </title>
         <%
         String itemID;
@@ -154,9 +158,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
               
                 <%
-                MySQL db = new MySQL();
-                db.connect();
-                
                 //Build Tree object for categories
                 Tree tree = new Tree();
                                 
@@ -231,6 +232,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 MySQL itemDetailsdb=new MySQL();
                                 itemDetailsdb.connect();
                                 itemID=result.getString(1);
+                                String itemName=result.getString(3);
                                 ResultSet itemDetails=itemDetailsdb.executeQuery("SELECT `Detail`, `Value` FROM `itemdetails` WHERE `ItemID` = '" + result.getString(1) + "'");
                                 itemDetails.next();
                                 if(itemDetails.getString(2).equals("NoFile"))
@@ -277,25 +279,39 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 <!-- 5 star rating code here -->
                             </div>
                             
-                            <table>
+                            <table style="padding-top: 12px;">
                                 <tr>
                                     <!-- facebook buttons start here -->
                                     <td>
-                                        <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
+                                        <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fteche.tk%2FItem.jsp%3FItemID%3D<%=itemID %>&amp;send=false&amp;layout=button_count&amp;width=300&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe>
+                                        <!-- <iframe src="http://www.facebook.com/plugins/like.php?href=patuck.net&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:20px;" allowTransparency="true"></iframe> -->
                                     </td> 
                                     <!-- facebook buttons end here -->
                                     <!-- twitter button start here -->
                                     <td>
-                                        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://teche.tk/Item.jsp?ItemID=<%=itemID %>" data-text="Check out the <%=itemName %> at TechE -">Tweet</a>
+                                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                                        <!-- <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> -->
                                     </td>
                                     <!-- twitter button end here -->
                                     <!-- +1 button start here -->
                                     <td>
-                                        <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe>
+                                        
+                                        <!-- Place this tag where you want the +1 button to render -->
+                                <g:plusone size="medium" annotation="inline" href="http://teche.tk/Item.jsp?ItemID=<%=itemID %>"></g:plusone>
+                                <!-- Place this render call where appropriate -->
+                                <script type="text/javascript">
+                                    (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                        po.src = 'https://apis.google.com/js/plusone.js';
+                                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                                    })();
+                                </script>
+                                        <!-- <iframe src="http://dev.syskall.com/plusone/?url=patuck.net" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" style="border:0;width:110px;height:30px;"></iframe> --!>
                                     </td>
                                     <!-- +1 button end here -->
                                 </tr>
                             </table>
+                            
                             
                         </div>
                     </div>

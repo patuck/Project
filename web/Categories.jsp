@@ -244,7 +244,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                     <!-- facebook buttons end here -->
                                     <!-- twitter button start here -->
                                     <td>
-                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://teche.tk/Item.jsp?ItemID=<%=itemID %>" data-text="Check out the <%=itemName %> at TechE | ">Tweet</a>
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://teche.tk/Item.jsp?ItemID=<%=itemID %>" data-text="Check out the <%=itemName %> at TechE -">Tweet</a>
                                         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                                         <!-- <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> -->
                                     </td>
