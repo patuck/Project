@@ -126,7 +126,7 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                                 Checksum checksum = new Checksum();
                                 db.executeUpdate("UPDATE `catalog`.`user` SET `Password` = '" + checksum.getSum(password) + "' WHERE `UserName`='" + request.getParameter("txtUserName") + "'");
                                 SendMail sm = new SendMail();
-                                sm.sendMail(request.getParameter("txtEmail"), "passwordrecovery@reshadsproject.net", "password recovery", "your new password is: " + password);
+                                sm.sendMail(request.getParameter("txtEmail"), "passwordrecovery@reshadsproject.net", "Password Recovery", "Dear "+ request.getParameter("txtUserName") +", \n\nWe have reset your password as per your request.\n\nYour new password is: " + password + "\n\nPlease change your password as soon as possible.\n\nThanks,\n\nThe TechE Team.");
                                 out.println("<p align=\"center\">We have generated a new password for you and sent it to the email id you specified. <br /></p>");
                             }
                             
