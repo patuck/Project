@@ -73,7 +73,12 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 }
                 else if(!isOnlyDigits('AddPrice', 'txtPrice'))
                 {
-                    document.getElementById('err-Price').innerHTML = "Price name must contain only digits";
+                    document.getElementById('err-Price').innerHTML = "Price must contain only digits";
+                    return false;
+                }
+                else if((document.forms['AddPrice'].elements['txtPrice'].value).length >= 10)
+                {
+                    document.getElementById('err-Price').innerHTML = "Price must contain less than 10 digits";
                     return false;
                 }
                 return true;
