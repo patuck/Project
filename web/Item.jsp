@@ -450,6 +450,24 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 <%
                 db.disconnect();
                 %>
+                
+                <!-- Google Add Code -->
+                <div align="center">
+                    <br />
+                    <script type="text/javascript">
+                        <!--
+                        google_ad_client = "ca-pub-4207702273321885";
+                        /* TYBSC - Project - TechE - Right Panel - Wide Scyscraper */
+                        google_ad_slot = "2310136425";
+                        google_ad_width = 160;
+                        google_ad_height = 600;
+                        //-->
+                    </script>
+                    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                </div>
+                <!-- Google Add Code -->
+                
             </div>
             <!-- Right colum ends here -->
 	

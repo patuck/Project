@@ -33,12 +33,16 @@ catch(NumberFormatException e)
 {
     ;
 }
+MySQL db = new MySQL();
+db.connect();
+ResultSet rs = db.executeQuery("SELECT `CategoryName` FROM `category` WHERE `CategoryID` = '" + request.getParameter("Category") + "';");
+rs.next();
 %>
 
 <html>
     <head>
         <title>
-            TechE
+            <%=rs.getString(1) %> - TechE
         </title>
         <%
         if(request.getParameter("Category") == null)
@@ -118,8 +122,6 @@ contentsource: ["smoothcontainer", "Scripts/Menu/menu.html"] //"markup" or ["con
                 
                 <%
                 int pageNo;
-                MySQL db = new MySQL();
-                db.connect();
                 
                 //Build Tree object for categories
                 Tree tree = new Tree();
