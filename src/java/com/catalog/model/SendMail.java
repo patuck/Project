@@ -4,70 +4,54 @@
  */
 package com.catalog.model;
 
-import java.util.Date;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
 
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 /**
  *
  * @author Reshad
  */
-public class SendMail 
+public class SendMail
 {
-
-    private String host;
-    private boolean sessionDebug;
-    private Properties props;
-    
     public static void main(String[] args) 
     {
         SendMail m =new SendMail();
-        m.sendMail("reshad.tybsc@gmail.com", "test@localhost", "test Mail", "sent from test clas with functions, ready to use in the project");
+        m.sendMail("reshad.tybsc@gmail.com", "no-reply@teche.tk", "test Mail", "sent from test clas with functions, ready to use in the project");
     }
-    public SendMail()
-    {
-        // Collect the necessary information to send a simple message
-        // Make sure to replace the values for host, to, and from with valid information.
-        // host - must be a valid smtp server that you currently have access to.
-        // servers will validate the domain of the from address
-        // before allowing the mail to be sent.
-        host = "localhost";
-        sessionDebug = false;
-        
-        // Create some properties and get the default Session.
-        props = System.getProperties();
-        Properties props = System.getProperties();
-        props.put("mail.host", host);
-        props.put("mail.transport.protocol", "smtp");
-    }
-    
     public void sendMail(String to, String from, String subject, String text)
     {
-        Session session = Session.getDefaultInstance(props, null);
-        // Set debug on the Session so we can see what is going on
-        // Passing false will not echo debug info, and passing true
-        // will.
-        session.setDebug(sessionDebug);
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() 
+        {
+            protected PasswordAuthentication getPasswordAuthentication() 
+            {
+                return new PasswordAuthentication("no-reply@teche.tk","techeteche");
+            }
+        });
         try 
         {
-            // Instantiate a new MimeMessage and fill it with the
-            // required information.
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
-            InternetAddress[] address = {new InternetAddress(to)};
-            msg.setRecipients(Message.RecipientType.TO, address);
-            msg.setSubject(subject);
-            msg.setSentDate(new Date());
-            msg.setText(text);
-            // Hand the message to the default transport service
-            // for delivery.
-            Transport.send(msg);
-        }
-        catch (MessagingException mex) 
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("no-reply@teche.tk"));
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(text);
+            Transport.send(message);
+            System.out.println("Done");
+        } 
+        catch (MessagingException e) 
         {
-            mex.printStackTrace();
+            throw new RuntimeException(e);
         }
-        session = null;
     }
 }
