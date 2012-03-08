@@ -65,6 +65,7 @@ Definition for left and right column, total width is 800px even though left and 
 	float:left;
 	width:640px;
 	padding:10px;
+	border-right: 1px solid #bbbbbb;
 	/*
 	background:#9c9;
 	*/
@@ -74,9 +75,9 @@ Definition for left and right column, total width is 800px even though left and 
 	float:right;
 	width: 210px;
 	padding:10px;
-	border-left: 1px solid #bbbbbb;
 	/*
-	background:#99c;
+	border-left: 1px solid #bbbbbb;
+        background:#99c;
 	*/
 }
 #center
